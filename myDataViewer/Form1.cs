@@ -25,7 +25,7 @@ namespace myDataViewer
         {
             Text += " : v" + Assembly.GetExecutingAssembly().GetName().Version; // put in the version number
 
-            string dataRoot = Path.Combine(Application.StartupPath, "Data");
+            string dataRoot = Path.Combine(Application.StartupPath, "data");
 
             if (Directory.Exists(dataRoot))
             {
@@ -88,7 +88,7 @@ namespace myDataViewer
                 //Add date time to graph. May get too busy so we comment out
                 //chartTemperature.ChartAreas[0].AxisX.LabelStyle.Format = "dd/MM HH:mm";
                 //chartHumidity.ChartAreas[0].AxisX.LabelStyle.Format = "dd/MM HH:mm";
-               
+
                 // As there are lots of days in a month angle the text on x-axis to show it all
                 chartTemperature.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
                 chartTemperature.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;

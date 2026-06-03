@@ -29,32 +29,32 @@ namespace myDataViewer
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend7 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend8 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabTemperature = new System.Windows.Forms.TabPage();
-            this.tabHumidity = new System.Windows.Forms.TabPage();
             this.chartTemperature = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabHumidity = new System.Windows.Forms.TabPage();
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
-            this.btnLoadData = new System.Windows.Forms.Button();
-            this.btn_close = new System.Windows.Forms.Button();
             this.comboYear = new System.Windows.Forms.ComboBox();
-            this.comboMonth = new System.Windows.Forms.ComboBox();
+            this.btn_close = new System.Windows.Forms.Button();
+            this.btnLoadData = new System.Windows.Forms.Button();
+            this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
+            this.checkedListMonths = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabTemperature.SuspendLayout();
-            this.tabHumidity.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartTemperature)).BeginInit();
+            this.tabHumidity.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartHumidity)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -100,10 +100,27 @@ namespace myDataViewer
             this.tabTemperature.Location = new System.Drawing.Point(4, 29);
             this.tabTemperature.Name = "tabTemperature";
             this.tabTemperature.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTemperature.Size = new System.Drawing.Size(1221, 562);
+            this.tabTemperature.Size = new System.Drawing.Size(1221, 422);
             this.tabTemperature.TabIndex = 0;
             this.tabTemperature.Text = "Temperature";
             this.tabTemperature.UseVisualStyleBackColor = true;
+            // 
+            // chartTemperature
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chartTemperature.ChartAreas.Add(chartArea1);
+            this.chartTemperature.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chartTemperature.Legends.Add(legend1);
+            this.chartTemperature.Location = new System.Drawing.Point(3, 3);
+            this.chartTemperature.Name = "chartTemperature";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chartTemperature.Series.Add(series1);
+            this.chartTemperature.Size = new System.Drawing.Size(1215, 416);
+            this.chartTemperature.TabIndex = 0;
+            this.chartTemperature.Text = "chart1";
             // 
             // tabHumidity
             // 
@@ -116,45 +133,28 @@ namespace myDataViewer
             this.tabHumidity.Text = "Humidity";
             this.tabHumidity.UseVisualStyleBackColor = true;
             // 
-            // chartTemperature
-            // 
-            chartArea7.Name = "ChartArea1";
-            this.chartTemperature.ChartAreas.Add(chartArea7);
-            this.chartTemperature.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend7.Name = "Legend1";
-            this.chartTemperature.Legends.Add(legend7);
-            this.chartTemperature.Location = new System.Drawing.Point(3, 3);
-            this.chartTemperature.Name = "chartTemperature";
-            series7.ChartArea = "ChartArea1";
-            series7.Legend = "Legend1";
-            series7.Name = "Series1";
-            this.chartTemperature.Series.Add(series7);
-            this.chartTemperature.Size = new System.Drawing.Size(1215, 556);
-            this.chartTemperature.TabIndex = 0;
-            this.chartTemperature.Text = "chart1";
-            // 
             // chartHumidity
             // 
             this.chartHumidity.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea8.Name = "ChartArea1";
-            this.chartHumidity.ChartAreas.Add(chartArea8);
-            legend8.Name = "Legend1";
-            this.chartHumidity.Legends.Add(legend8);
+            chartArea2.Name = "ChartArea1";
+            this.chartHumidity.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartHumidity.Legends.Add(legend2);
             this.chartHumidity.Location = new System.Drawing.Point(6, 6);
             this.chartHumidity.Name = "chartHumidity";
-            series8.ChartArea = "ChartArea1";
-            series8.Legend = "Legend1";
-            series8.Name = "Series1";
-            this.chartHumidity.Series.Add(series8);
+            series2.ChartArea = "ChartArea1";
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chartHumidity.Series.Add(series2);
             this.chartHumidity.Size = new System.Drawing.Size(1209, 410);
             this.chartHumidity.TabIndex = 0;
             this.chartHumidity.Text = "chart1";
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.comboMonth);
+            this.panel2.Controls.Add(this.checkedListMonths);
             this.panel2.Controls.Add(this.comboYear);
             this.panel2.Controls.Add(this.btn_close);
             this.panel2.Controls.Add(this.btnLoadData);
@@ -165,23 +165,14 @@ namespace myDataViewer
             this.panel2.Size = new System.Drawing.Size(1229, 194);
             this.panel2.TabIndex = 1;
             // 
-            // checkedListSensors
+            // comboYear
             // 
-            this.checkedListSensors.FormattingEnabled = true;
-            this.checkedListSensors.Location = new System.Drawing.Point(555, 35);
-            this.checkedListSensors.Name = "checkedListSensors";
-            this.checkedListSensors.Size = new System.Drawing.Size(386, 142);
-            this.checkedListSensors.TabIndex = 0;
-            // 
-            // btnLoadData
-            // 
-            this.btnLoadData.Location = new System.Drawing.Point(1061, 35);
-            this.btnLoadData.Name = "btnLoadData";
-            this.btnLoadData.Size = new System.Drawing.Size(158, 63);
-            this.btnLoadData.TabIndex = 1;
-            this.btnLoadData.Text = "Load Data";
-            this.btnLoadData.UseVisualStyleBackColor = true;
-            this.btnLoadData.Click += new System.EventHandler(this.btnLoadData_Click);
+            this.comboYear.FormattingEnabled = true;
+            this.comboYear.Location = new System.Drawing.Point(32, 27);
+            this.comboYear.Name = "comboYear";
+            this.comboYear.Size = new System.Drawing.Size(121, 28);
+            this.comboYear.TabIndex = 3;
+            this.comboYear.SelectedIndexChanged += new System.EventHandler(this.comboYear_SelectedIndexChanged);
             // 
             // btn_close
             // 
@@ -193,22 +184,31 @@ namespace myDataViewer
             this.btn_close.UseVisualStyleBackColor = true;
             this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
             // 
-            // comboYear
+            // btnLoadData
             // 
-            this.comboYear.FormattingEnabled = true;
-            this.comboYear.Location = new System.Drawing.Point(32, 27);
-            this.comboYear.Name = "comboYear";
-            this.comboYear.Size = new System.Drawing.Size(121, 28);
-            this.comboYear.TabIndex = 3;
-            this.comboYear.SelectedIndexChanged += new System.EventHandler(this.comboYear_SelectedIndexChanged);
+            this.btnLoadData.Location = new System.Drawing.Point(1061, 35);
+            this.btnLoadData.Name = "btnLoadData";
+            this.btnLoadData.Size = new System.Drawing.Size(158, 63);
+            this.btnLoadData.TabIndex = 1;
+            this.btnLoadData.Text = "Load Data";
+            this.btnLoadData.UseVisualStyleBackColor = true;
+            this.btnLoadData.Click += new System.EventHandler(this.btnLoadData_Click);
             // 
-            // comboMonth
+            // checkedListSensors
             // 
-            this.comboMonth.FormattingEnabled = true;
-            this.comboMonth.Location = new System.Drawing.Point(159, 27);
-            this.comboMonth.Name = "comboMonth";
-            this.comboMonth.Size = new System.Drawing.Size(159, 28);
-            this.comboMonth.TabIndex = 4;
+            this.checkedListSensors.FormattingEnabled = true;
+            this.checkedListSensors.Location = new System.Drawing.Point(386, 27);
+            this.checkedListSensors.Name = "checkedListSensors";
+            this.checkedListSensors.Size = new System.Drawing.Size(386, 142);
+            this.checkedListSensors.TabIndex = 0;
+            // 
+            // checkedListMonths
+            // 
+            this.checkedListMonths.FormattingEnabled = true;
+            this.checkedListMonths.Location = new System.Drawing.Point(179, 27);
+            this.checkedListMonths.Name = "checkedListMonths";
+            this.checkedListMonths.Size = new System.Drawing.Size(192, 142);
+            this.checkedListMonths.TabIndex = 5;
             // 
             // Form1
             // 
@@ -224,8 +224,8 @@ namespace myDataViewer
             this.panel1.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabTemperature.ResumeLayout(false);
-            this.tabHumidity.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartTemperature)).EndInit();
+            this.tabHumidity.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartHumidity)).EndInit();
             this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -245,8 +245,8 @@ namespace myDataViewer
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.Button btnLoadData;
         private System.Windows.Forms.CheckedListBox checkedListSensors;
-        private System.Windows.Forms.ComboBox comboMonth;
         private System.Windows.Forms.ComboBox comboYear;
+        private System.Windows.Forms.CheckedListBox checkedListMonths;
     }
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -6,11 +7,21 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using CenteredMessagebox;
 
 namespace myDataViewer
 {
     public partial class Form1 : Form
     {
+        private readonly Dictionary<string, Color> SensorColors = new Dictionary<string, Color>
+        {
+            { "Outside", Color.Blue },
+            { "Sanctuary", Color.Red },
+            { "Thermostat", Color.Green },
+            { "Centre", Color.Orange },
+            { "Gallery", Color.Purple }
+        };
+
         private readonly string[] Sensors =
         {
             "Outside", "Sanctuary", "Thermostat", "Centre", "Gallery"
@@ -50,85 +61,95 @@ namespace myDataViewer
 
         private void btnLoadData_Click(object sender, EventArgs e)
         {
-            if (comboYear.SelectedItem == null || comboMonth.SelectedItem == null)
+            // Validate selections
+            if (comboYear.SelectedItem == null)
             {
-                MessageBox.Show("Please select a year and month.");
+                MessageBox.Show("Please select a year.");
                 return;
             }
 
-            string basePath = Path.Combine(Application.StartupPath, "Data", comboYear.Text, comboMonth.Text);
+            if (checkedListMonths.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select at least one month.");
+                return;
+            }
 
+            if (checkedListSensors.CheckedItems.Count == 0)
+            {
+                MessageBox.Show("Please select at least one sensor.");
+                return;
+            }
+
+            string year = comboYear.SelectedItem.ToString();
+            string dataRoot = Path.Combine(Application.StartupPath, "Data", year);
+
+            // Clear charts
             chartTemperature.Series.Clear();
             chartHumidity.Series.Clear();
 
+            // Loop through each selected sensor
             foreach (string sensor in checkedListSensors.CheckedItems)
             {
-                string csvPath = Path.Combine(basePath, sensor + ".csv");
-
-                if (!File.Exists(csvPath))
-                    continue;
-
-                var tempSeries = new Series(sensor)
+                // Loop through each selected month
+                foreach (string month in checkedListMonths.CheckedItems)
                 {
-                    ChartType = SeriesChartType.Line,
-                    XValueType = ChartValueType.DateTime
-                };
+                    string csvPath = Path.Combine(dataRoot, month, sensor + ".csv");
 
-                var humSeries = new Series(sensor)
-                {
-                    ChartType = SeriesChartType.Line,
-                    XValueType = ChartValueType.DateTime
-                };
+                    if (!File.Exists(csvPath))
+                        continue;
 
-                LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
+                    // Create unique series name e.g. "Outside - April"
+                    string seriesNameTemp = $"{sensor} - {month}";
+                    string seriesNameHum = $"{sensor} - {month}";
 
-                chartTemperature.Series.Add(tempSeries);
-                chartHumidity.Series.Add(humSeries);
+                    var tempSeries = new Series(seriesNameTemp)
+                    {
+                        ChartType = SeriesChartType.Line,
+                        XValueType = ChartValueType.Double,
+                        //Color = SensorColors[sensor]
+                    };
 
-                //Add date time to graph. May get too busy so we comment out
-                //chartTemperature.ChartAreas[0].AxisX.LabelStyle.Format = "dd/MM HH:mm";
-                //chartHumidity.ChartAreas[0].AxisX.LabelStyle.Format = "dd/MM HH:mm";
+                    var humSeries = new Series(seriesNameHum)
+                    {
+                        ChartType = SeriesChartType.Line,
+                        XValueType = ChartValueType.Double,
+                        //Color = SensorColors[sensor]
+                    };
 
-                // As there are lots of days in a month angle the text on x-axis to show it all
-                chartTemperature.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
-                chartTemperature.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
-                chartTemperature.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
 
-                chartHumidity.ChartAreas[0].AxisX.LabelStyle.Angle = -45;
-                chartHumidity.ChartAreas[0].AxisX.IntervalAutoMode = IntervalAutoMode.VariableCount;
-                chartHumidity.ChartAreas[0].AxisX.MajorGrid.LineColor = Color.LightGray;
+                    // Load CSV into the series
+                    LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
 
+                    // Add to charts
+                    chartTemperature.Series.Add(tempSeries);
+                    chartHumidity.Series.Add(humSeries);
+                }
+            }
+
+            // Format X-axis for overlay mode (hours since start of month)
+            FormatOverlayXAxis(chartTemperature);
+            FormatOverlayXAxis(chartHumidity);
+        }
+
+        private void FormatOverlayXAxis(Chart chart)
+        {
+            var axis = chart.ChartAreas[0].AxisX;
+
+            axis.CustomLabels.Clear();
+            axis.Interval = 24; // 1 tick per day
+            axis.LabelStyle.Angle = -45;
+            axis.MajorGrid.LineColor = Color.LightGray;
+
+            // Add labels for days 1–31
+            for (int day = 1; day <= 31; day++)
+            {
+                double start = (day - 1) * 24;
+                double end = day * 24;
+                axis.CustomLabels.Add(start, end, $"{day}");
             }
         }
 
-
-        //private void LoadCsvIntoSeries(string filePath, Series tempSeries, Series humSeries)
-        //{
-        //    foreach (var line in File.ReadLines(filePath).Skip(1))
-        //    {
-        //        var parts = line.Split(',');
-        //        if (parts.Length < 4)
-        //            continue;
-
-        //        string dateStr = parts[0];
-        //        string timeStr = parts[1];
-
-
-        //        if (!DateTime.TryParse($"{dateStr} {timeStr}", out DateTime timestamp))
-        //            continue;
-
-        //        if (double.TryParse(parts[2], NumberStyles.Any, CultureInfo.InvariantCulture, out double temp))
-        //        {
-        //            tempSeries.Points.AddXY(timestamp, temp);
-        //        }
-
-        //        if (double.TryParse(parts[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double hum))
-        //        {
-        //            humSeries.Points.AddXY(timestamp, hum);
-        //        }
-        //    }
-        //}
-
+       
         private void LoadCsvIntoSeries(string filePath, Series tempSeries, Series humSeries)
         {
             foreach (var line in File.ReadLines(filePath).Skip(1))
@@ -139,7 +160,6 @@ namespace myDataViewer
 
                 string combined = parts[0] + " " + parts[1];
 
-                //here we define how the date and time appears in the csv file
                 if (!DateTime.TryParseExact(
                         combined,
                         "MM/dd/yyyy HH:mm:ss",
@@ -150,14 +170,15 @@ namespace myDataViewer
                     continue;
                 }
 
+                double x = HoursSinceStartOfMonth(timestamp);
+
                 if (double.TryParse(parts[2], NumberStyles.Any, CultureInfo.InvariantCulture, out double temp))
-                    tempSeries.Points.AddXY(timestamp, temp);
+                    tempSeries.Points.AddXY(x, temp);
 
                 if (double.TryParse(parts[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double hum))
-                    humSeries.Points.AddXY(timestamp, hum);
+                    humSeries.Points.AddXY(x, hum);
             }
         }
-
 
 
         private void btn_close_Click(object sender, EventArgs e)
@@ -168,7 +189,7 @@ namespace myDataViewer
 
         private void comboYear_SelectedIndexChanged(object sender, EventArgs e)
         {
-            comboMonth.Items.Clear();
+            checkedListMonths.Items.Clear();
 
             string yearPath = Path.Combine(Application.StartupPath, "Data", comboYear.Text);
 
@@ -178,10 +199,14 @@ namespace myDataViewer
                     .Select(Path.GetFileName)
                     .OrderBy(m => m);
 
-                comboMonth.Items.AddRange(months.ToArray());
-
-                comboMonth.SelectedIndex = 0;
+                checkedListMonths.Items.AddRange(months.ToArray());
             }
+        }
+
+        private double HoursSinceStartOfMonth(DateTime timestamp)
+        {
+            var start = new DateTime(timestamp.Year, timestamp.Month, 1, 0, 0, 0);
+            return (timestamp - start).TotalHours;
         }
 
     }

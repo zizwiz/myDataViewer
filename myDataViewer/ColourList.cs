@@ -1,20 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace myDataViewer
+﻿namespace myDataViewer
 {
     class ColourList
     {
-
-
-
         public static string SelectColour(int choice)
         {
-
-
             switch (choice)
             {
                 case 1: return "Blue";
@@ -159,10 +148,6 @@ namespace myDataViewer
                 case 140: return "Snow";
                 default: return "Orange";
             }
-
         }
-
-
-
     }
 }

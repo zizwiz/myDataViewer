@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -13,28 +12,6 @@ namespace myDataViewer
 {
     public partial class Form1 : Form
     {
-
-       //private readonly Dictionary<string, Color> SensorColors = new Dictionary<string, Color>
-       // {
-
-       //     { "Outside", Color.Blue },
-       //     { "Sanctuary", Color.Red },
-       //     { "Thermostat", Color.Green },
-       //     { "Centre", Color.Orange },
-       //     { "Gallery", Color.Purple }
-
-       //     //var abc = Color.FromName("Green");
-       // };
-
-       //private readonly Dictionary<int, string> GetLineColor = new Dictionary<int, string>
-       //{
-
-       //    {1,"Blue"},
-       //    {2, "Red"},
-       //    {3,"Green"}
-           
-       //};
-
 
         private readonly string[] Sensors =
         {
@@ -72,7 +49,22 @@ namespace myDataViewer
 
             comboYear.SelectedIndex = 0;
 
-            
+            chartTemperature.Series.Clear();
+            chartTemperature.ChartAreas[0].CursorX.IsUserEnabled = true;
+            chartTemperature.ChartAreas[0].CursorY.IsUserEnabled = true;
+            chartTemperature.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chartTemperature.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+            chartTemperature.ChartAreas[0].AxisX.ToolTip = "Day/Time";
+            chartTemperature.ChartAreas[0].AxisY.ToolTip = "Value";
+
+            chartHumidity.Series.Clear();
+            chartHumidity.ChartAreas[0].CursorX.IsUserEnabled = true;
+            chartHumidity.ChartAreas[0].CursorY.IsUserEnabled = true;
+            chartHumidity.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
+            chartHumidity.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
+            chartHumidity.ChartAreas[0].AxisX.ToolTip = "Day/Time";
+            chartHumidity.ChartAreas[0].AxisY.ToolTip = "Value";
+
         }
 
         private void btnLoadData_Click(object sender, EventArgs e)
@@ -132,7 +124,6 @@ namespace myDataViewer
                     {
                         ChartType = SeriesChartType.Line,
                         XValueType = ChartValueType.Double,
-                        //Color = SensorColors[sensor] //Choose colour for this plot
                         Color = Color.FromName(ColourList.SelectColour(counter))
                     };
 
@@ -140,7 +131,6 @@ namespace myDataViewer
                     {
                         ChartType = SeriesChartType.Line,
                         XValueType = ChartValueType.Double,
-                        //Color = SensorColors[sensor]
                         Color = Color.FromName(ColourList.SelectColour(counter))
                     };
 
@@ -177,7 +167,7 @@ namespace myDataViewer
             }
         }
 
-       
+
         private void LoadCsvIntoSeries(string filePath, Series tempSeries, Series humSeries)
         {
             foreach (var line in File.ReadLines(filePath).Skip(1))
@@ -201,10 +191,20 @@ namespace myDataViewer
                 double x = HoursSinceStartOfMonth(timestamp);
 
                 if (double.TryParse(parts[2], NumberStyles.Any, CultureInfo.InvariantCulture, out double temp))
-                    tempSeries.Points.AddXY(x, temp);
+                    
+                {
+                    //tempSeries.Points.AddXY(x, temp);
+                    int p1 = tempSeries.Points.AddXY(x, temp);
+                    tempSeries.Points[p1].ToolTip =
+                        $"{tempSeries.Name}\nDay {timestamp.Day} {timestamp:HH:mm}\nTemp: {temp}°C";
+                }
 
                 if (double.TryParse(parts[3], NumberStyles.Any, CultureInfo.InvariantCulture, out double hum))
-                    humSeries.Points.AddXY(x, hum);
+                {
+                    //humSeries.Points.AddXY(x, hum);
+                    int p2 = humSeries.Points.AddXY(x, hum);
+                    humSeries.Points[p2].ToolTip = $"{humSeries.Name}\nDay {timestamp.Day} {timestamp:HH:mm}\nHumidity: {hum}%";
+                }
             }
         }
 

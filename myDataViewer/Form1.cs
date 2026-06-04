@@ -13,14 +13,28 @@ namespace myDataViewer
 {
     public partial class Form1 : Form
     {
-        private readonly Dictionary<string, Color> SensorColors = new Dictionary<string, Color>
-        {
-            { "Outside", Color.Blue },
-            { "Sanctuary", Color.Red },
-            { "Thermostat", Color.Green },
-            { "Centre", Color.Orange },
-            { "Gallery", Color.Purple }
-        };
+
+       //private readonly Dictionary<string, Color> SensorColors = new Dictionary<string, Color>
+       // {
+
+       //     { "Outside", Color.Blue },
+       //     { "Sanctuary", Color.Red },
+       //     { "Thermostat", Color.Green },
+       //     { "Centre", Color.Orange },
+       //     { "Gallery", Color.Purple }
+
+       //     //var abc = Color.FromName("Green");
+       // };
+
+       //private readonly Dictionary<int, string> GetLineColor = new Dictionary<int, string>
+       //{
+
+       //    {1,"Blue"},
+       //    {2, "Red"},
+       //    {3,"Green"}
+           
+       //};
+
 
         private readonly string[] Sensors =
         {
@@ -57,26 +71,29 @@ namespace myDataViewer
             chartHumidity.Legends.Add(new Legend("HumLegend"));
 
             comboYear.SelectedIndex = 0;
+
+            
         }
 
         private void btnLoadData_Click(object sender, EventArgs e)
         {
+            int counter = 0;
             // Validate selections
             if (comboYear.SelectedItem == null)
             {
-                MessageBox.Show("Please select a year.");
+                MsgBox.Show("Please select a year.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (checkedListMonths.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Please select at least one month.");
+                MsgBox.Show("Please select at least one month.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (checkedListSensors.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Please select at least one sensor.");
+                MsgBox.Show("Please select at least one sensor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -93,20 +110,30 @@ namespace myDataViewer
                 // Loop through each selected month
                 foreach (string month in checkedListMonths.CheckedItems)
                 {
+                    counter++;
+
+                    if (counter > 140)
+                    {
+                        MsgBox.Show("I can only draw 140 sensors", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
                     string csvPath = Path.Combine(dataRoot, month, sensor + ".csv");
 
                     if (!File.Exists(csvPath))
                         continue;
 
-                    // Create unique series name e.g. "Outside - April"
-                    string seriesNameTemp = $"{sensor} - {month}";
-                    string seriesNameHum = $"{sensor} - {month}";
+                    // Create unique series name e.g. "Outside - April - 2026"
+                    string seriesNameTemp = $"{sensor} - {month} - {year}";
+                    string seriesNameHum = $"{sensor} - {month} - {year}";
+
 
                     var tempSeries = new Series(seriesNameTemp)
                     {
                         ChartType = SeriesChartType.Line,
                         XValueType = ChartValueType.Double,
-                        //Color = SensorColors[sensor]
+                        //Color = SensorColors[sensor] //Choose colour for this plot
+                        Color = Color.FromName(ColourList.SelectColour(counter))
                     };
 
                     var humSeries = new Series(seriesNameHum)
@@ -114,6 +141,7 @@ namespace myDataViewer
                         ChartType = SeriesChartType.Line,
                         XValueType = ChartValueType.Double,
                         //Color = SensorColors[sensor]
+                        Color = Color.FromName(ColourList.SelectColour(counter))
                     };
 
 

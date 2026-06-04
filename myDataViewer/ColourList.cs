@@ -1,0 +1,168 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace myDataViewer
+{
+    class ColourList
+    {
+
+
+
+        public static string SelectColour(int choice)
+        {
+
+
+            switch (choice)
+            {
+                case 1: return "Blue";
+                case 2: return "Red";
+                case 3: return "Green";
+                case 4: return "Orange";
+                case 5: return "Purple";
+                case 6: return "Cyan";
+                case 7: return "Yellow";
+                case 8: return "Brown";
+                case 9: return "Navy";
+                case 10: return "Aqua";
+                case 11: return "Azure";
+                case 12: return "Beige";
+                case 13: return "Bisque";
+                case 14: return "BlanchedAlmond";
+                case 15: return "BlueViolet";
+                case 16: return "BurlyWood";
+                case 17: return "CadetBlue";
+                case 18: return "Chartreuse";
+                case 19: return "Chocolate";
+                case 20: return "Coral";
+                case 21: return "CornflowerBlue";
+                case 22: return "Cornsilk";
+                case 23: return "Crimson";
+                case 24: return "Aquamarine";
+                case 25: return "DarkBlue";
+                case 26: return "DarkCyan";
+                case 27: return "DarkGoldenrod";
+                case 28: return "DarkGreen";
+                case 29: return "DarkKhaki";
+                case 30: return "DarkMagenta";
+                case 31: return "DarkOliveGreen";
+                case 32: return "DarkOrange";
+                case 33: return "DarkOrchid";
+                case 34: return "DarkRed";
+                case 35: return "DarkSalmon";
+                case 36: return "DarkSeaGreen";
+                case 37: return "DarkSlateBlue";
+                case 38: return "DarkTurquoise";
+                case 39: return "DarkViolet";
+                case 40: return "DeepPink";
+                case 41: return "DeepSkyBlue";
+                case 42: return "DimGray";
+                case 43: return "DodgerBlue";
+                case 44: return "Firebrick";
+                case 45: return "ForestGreen";
+                case 46: return "Fuchsia";
+                case 47: return "Gainsboro";
+                case 48: return "Gold";
+                case 49: return "Goldenrod";
+                case 50: return "GreenYellow";
+                case 51: return "Honeydew";
+                case 52: return "HotPink";
+                case 53: return "IndianRed";
+                case 54: return "Indigo";
+                case 55: return "Khaki";
+                case 56: return "Lavender";
+                case 57: return "LavenderBlush";
+                case 58: return "LawnGreen";
+                case 59: return "LemonChiffon";
+                case 60: return "LightBlue";
+                case 61: return "LightCoral";
+                case 62: return "LightCyan";
+                case 63: return "LightGoldenrodYellow";
+                case 64: return "LightGreen";
+                case 65: return "LightPink";
+                case 66: return "LightSalmon";
+                case 67: return "LightSeaGreen";
+                case 68: return "LightSkyBlue";
+                case 69: return "LightSteelBlue";
+                case 70: return "LightYellow";
+                case 71: return "Lime";
+                case 72: return "LimeGreen";
+                case 73: return "Magenta";
+                case 74: return "Maroon";
+                case 75: return "MediumAquamarine";
+                case 76: return "MediumBlue";
+                case 77: return "MediumOrchid";
+                case 78: return "MediumPurple";
+                case 79: return "MediumSeaGreen";
+                case 80: return "MediumSlateBlue";
+                case 81: return "MediumSpringGreen";
+                case 82: return "MediumTurquoise";
+                case 83: return "MediumVioletRed";
+                case 84: return "MidnightBlue";
+                case 85: return "MintCream";
+                case 86: return "MistyRose";
+                case 87: return "Moccasin";
+                case 88: return "AliceBlue";
+                case 89: return "OldLace";
+                case 90: return "Olive";
+                case 91: return "OliveDrab";
+                case 92: return "OrangeRed";
+                case 93: return "Orchid";
+                case 94: return "PaleGoldenrod";
+                case 95: return "PaleGreen";
+                case 96: return "PaleTurquoise";
+                case 97: return "PaleVioletRed";
+                case 98: return "PapayaWhip";
+                case 99: return "PeachPuff";
+                case 100: return "Peru";
+                case 101: return "Pink";
+                case 102: return "Plum";
+                case 103: return "PowderBlue";
+                case 104: return "RosyBrown";
+                case 105: return "RoyalBlue";
+                case 106: return "SaddleBrown";
+                case 107: return "Salmon";
+                case 108: return "SandyBrown";
+                case 109: return "SeaGreen";
+                case 110: return "SeaShell";
+                case 111: return "Sienna";
+                case 112: return "SkyBlue";
+                case 113: return "SlateBlue";
+                case 114: return "SpringGreen";
+                case 115: return "SteelBlue";
+                case 116: return "Tan";
+                case 117: return "Teal";
+                case 118: return "Thistle";
+                case 119: return "Tomato";
+                case 120: return "Turquoise";
+                case 121: return "Violet";
+                case 122: return "Wheat";
+                case 123: return "YellowGreen";
+                case 124: return "WhiteSmoke";
+                case 125: return "Black";
+                case 126: return "Gray";
+                case 127: return "White";
+                case 128: return "AntiqueWhite";
+                case 129: return "GhostWhite";
+                case 130: return "DarkGray";
+                case 131: return "DarkSlateGray";
+                case 132: return "FloralWhite";
+                case 133: return "Linen";
+                case 134: return "LightSlateGray";
+                case 135: return "Ivory";
+                case 136: return "LightGray";
+                case 137: return "SlateGray";
+                case 138: return "NavajoWhite";
+                case 139: return "Silver";
+                case 140: return "Snow";
+                default: return "Orange";
+            }
+
+        }
+
+
+
+    }
+}

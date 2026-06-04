@@ -39,7 +39,6 @@ namespace myDataViewer
             }
 
             checkedListSensors.Items.AddRange(Sensors);
-            checkedListSensors.CheckOnClick = true;
 
             chartTemperature.ChartAreas.Add(new ChartArea("TempArea"));
             chartHumidity.ChartAreas.Add(new ChartArea("HumArea"));
@@ -49,25 +48,26 @@ namespace myDataViewer
 
             comboYear.SelectedIndex = 0;
 
+
             chartTemperature.Series.Clear();
-            chartTemperature.ChartAreas[0].CursorX.IsUserEnabled = true;
-            chartTemperature.ChartAreas[0].CursorY.IsUserEnabled = true;
-            chartTemperature.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
-            chartTemperature.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
             chartTemperature.ChartAreas[0].AxisX.ToolTip = "Day/Time";
             chartTemperature.ChartAreas[0].AxisY.ToolTip = "Value";
 
             chartHumidity.Series.Clear();
-            chartHumidity.ChartAreas[0].CursorX.IsUserEnabled = true;
-            chartHumidity.ChartAreas[0].CursorY.IsUserEnabled = true;
-            chartHumidity.ChartAreas[0].CursorX.IsUserSelectionEnabled = true;
-            chartHumidity.ChartAreas[0].CursorY.IsUserSelectionEnabled = true;
             chartHumidity.ChartAreas[0].AxisX.ToolTip = "Day/Time";
             chartHumidity.ChartAreas[0].AxisY.ToolTip = "Value";
 
+            btn_reset_zoom.Visible = false;
+            chkbx_zoom.Visible = false;
+            chkbx_crosshairs.Visible = false;
         }
 
         private void btnLoadData_Click(object sender, EventArgs e)
+        {
+            LoadData();
+        }
+
+        private void LoadData()
         {
             int counter = 0;
             // Validate selections
@@ -134,13 +134,16 @@ namespace myDataViewer
                         Color = Color.FromName(ColourList.SelectColour(counter))
                     };
 
-
                     // Load CSV into the series
                     LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
 
                     // Add to charts
                     chartTemperature.Series.Add(tempSeries);
                     chartHumidity.Series.Add(humSeries);
+
+                    //Allow checkboxes
+                    chkbx_zoom.Visible = true;
+                    chkbx_crosshairs.Visible = true;
                 }
             }
 
@@ -191,7 +194,7 @@ namespace myDataViewer
                 double x = HoursSinceStartOfMonth(timestamp);
 
                 if (double.TryParse(parts[2], NumberStyles.Any, CultureInfo.InvariantCulture, out double temp))
-                    
+
                 {
                     //tempSeries.Points.AddXY(x, temp);
                     int p1 = tempSeries.Points.AddXY(x, temp);
@@ -237,5 +240,53 @@ namespace myDataViewer
             return (timestamp - start).TotalHours;
         }
 
+        private void chkbx_crosshairs_CheckedChanged(object sender, EventArgs e)
+        {
+            SetCrosshairEnabled(chartTemperature, chkbx_crosshairs.Checked);
+            SetCrosshairEnabled(chartHumidity, chkbx_crosshairs.Checked);
+        }
+
+        private void chkbx_zoom_CheckedChanged(object sender, EventArgs e)
+        {
+            SetZoomEnabled(chartTemperature, chkbx_zoom.Checked);
+            SetZoomEnabled(chartHumidity, chkbx_zoom.Checked);
+        }
+
+
+        private void SetZoomEnabled(Chart chart, bool enabled)
+        {
+            btn_reset_zoom.Visible = true;
+            chart.ChartAreas[0].CursorX.IsUserSelectionEnabled = enabled;
+            chart.ChartAreas[0].CursorY.IsUserSelectionEnabled = enabled;
+
+            if (!enabled)
+            {
+                btn_reset_zoom.Visible = false;
+                chart.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+                chart.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+            }
+        }
+
+        private void SetCrosshairEnabled(Chart chart, bool enabled)
+        {
+            chart.ChartAreas[0].CursorX.IsUserEnabled = enabled;
+            chart.ChartAreas[0].CursorY.IsUserEnabled = enabled;
+
+            // Remove any existing crosshair
+            chart.ChartAreas[0].CursorX.SetCursorPosition(double.NaN);
+            chart.ChartAreas[0].CursorY.SetCursorPosition(double.NaN);
+
+            chart.Invalidate();
+        }
+
+
+        private void btn_reset_zoom_Click(object sender, EventArgs e)
+        {
+            chartTemperature.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            chartTemperature.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+            chartHumidity.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            chartHumidity.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+            btn_reset_zoom.Visible = false;
+        }
     }
 }

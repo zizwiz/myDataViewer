@@ -44,11 +44,15 @@ namespace myDataViewer
             this.tabHumidity = new System.Windows.Forms.TabPage();
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.checkedListMonths = new System.Windows.Forms.CheckedListBox();
             this.comboYear = new System.Windows.Forms.ComboBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.btnLoadData = new System.Windows.Forms.Button();
             this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
-            this.checkedListMonths = new System.Windows.Forms.CheckedListBox();
+            this.chkbx_crosshairs = new System.Windows.Forms.CheckBox();
+            this.chkbx_zoom = new System.Windows.Forms.CheckBox();
+            this.btn_reset_zoom = new System.Windows.Forms.Button();
+            this.checkedListYears = new System.Windows.Forms.CheckedListBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -154,6 +158,10 @@ namespace myDataViewer
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.checkedListYears);
+            this.panel2.Controls.Add(this.btn_reset_zoom);
+            this.panel2.Controls.Add(this.chkbx_zoom);
+            this.panel2.Controls.Add(this.chkbx_crosshairs);
             this.panel2.Controls.Add(this.checkedListMonths);
             this.panel2.Controls.Add(this.comboYear);
             this.panel2.Controls.Add(this.btn_close);
@@ -165,10 +173,19 @@ namespace myDataViewer
             this.panel2.Size = new System.Drawing.Size(1229, 194);
             this.panel2.TabIndex = 1;
             // 
+            // checkedListMonths
+            // 
+            this.checkedListMonths.CheckOnClick = true;
+            this.checkedListMonths.FormattingEnabled = true;
+            this.checkedListMonths.Location = new System.Drawing.Point(207, 27);
+            this.checkedListMonths.Name = "checkedListMonths";
+            this.checkedListMonths.Size = new System.Drawing.Size(192, 142);
+            this.checkedListMonths.TabIndex = 5;
+            // 
             // comboYear
             // 
             this.comboYear.FormattingEnabled = true;
-            this.comboYear.Location = new System.Drawing.Point(32, 27);
+            this.comboYear.Location = new System.Drawing.Point(864, 122);
             this.comboYear.Name = "comboYear";
             this.comboYear.Size = new System.Drawing.Size(121, 28);
             this.comboYear.TabIndex = 3;
@@ -176,9 +193,9 @@ namespace myDataViewer
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(1061, 122);
+            this.btn_close.Location = new System.Drawing.Point(1077, 133);
             this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(158, 63);
+            this.btn_close.Size = new System.Drawing.Size(142, 52);
             this.btn_close.TabIndex = 2;
             this.btn_close.Text = "Close";
             this.btn_close.UseVisualStyleBackColor = true;
@@ -186,9 +203,9 @@ namespace myDataViewer
             // 
             // btnLoadData
             // 
-            this.btnLoadData.Location = new System.Drawing.Point(1061, 35);
+            this.btnLoadData.Location = new System.Drawing.Point(1077, 75);
             this.btnLoadData.Name = "btnLoadData";
-            this.btnLoadData.Size = new System.Drawing.Size(158, 63);
+            this.btnLoadData.Size = new System.Drawing.Size(142, 52);
             this.btnLoadData.TabIndex = 1;
             this.btnLoadData.Text = "Load Data";
             this.btnLoadData.UseVisualStyleBackColor = true;
@@ -196,19 +213,53 @@ namespace myDataViewer
             // 
             // checkedListSensors
             // 
+            this.checkedListSensors.CheckOnClick = true;
             this.checkedListSensors.FormattingEnabled = true;
-            this.checkedListSensors.Location = new System.Drawing.Point(386, 27);
+            this.checkedListSensors.Location = new System.Drawing.Point(405, 27);
             this.checkedListSensors.Name = "checkedListSensors";
             this.checkedListSensors.Size = new System.Drawing.Size(386, 142);
             this.checkedListSensors.TabIndex = 0;
             // 
-            // checkedListMonths
+            // chkbx_crosshairs
             // 
-            this.checkedListMonths.FormattingEnabled = true;
-            this.checkedListMonths.Location = new System.Drawing.Point(179, 27);
-            this.checkedListMonths.Name = "checkedListMonths";
-            this.checkedListMonths.Size = new System.Drawing.Size(192, 142);
-            this.checkedListMonths.TabIndex = 5;
+            this.chkbx_crosshairs.AutoSize = true;
+            this.chkbx_crosshairs.Location = new System.Drawing.Point(864, 29);
+            this.chkbx_crosshairs.Name = "chkbx_crosshairs";
+            this.chkbx_crosshairs.Size = new System.Drawing.Size(154, 24);
+            this.chkbx_crosshairs.TabIndex = 6;
+            this.chkbx_crosshairs.Text = "Show Crosshairs";
+            this.chkbx_crosshairs.UseVisualStyleBackColor = true;
+            this.chkbx_crosshairs.CheckedChanged += new System.EventHandler(this.chkbx_crosshairs_CheckedChanged);
+            // 
+            // chkbx_zoom
+            // 
+            this.chkbx_zoom.AutoSize = true;
+            this.chkbx_zoom.Location = new System.Drawing.Point(864, 59);
+            this.chkbx_zoom.Name = "chkbx_zoom";
+            this.chkbx_zoom.Size = new System.Drawing.Size(138, 24);
+            this.chkbx_zoom.TabIndex = 7;
+            this.chkbx_zoom.Text = "Allow Zooming";
+            this.chkbx_zoom.UseVisualStyleBackColor = true;
+            this.chkbx_zoom.CheckedChanged += new System.EventHandler(this.chkbx_zoom_CheckedChanged);
+            // 
+            // btn_reset_zoom
+            // 
+            this.btn_reset_zoom.Location = new System.Drawing.Point(1077, 14);
+            this.btn_reset_zoom.Name = "btn_reset_zoom";
+            this.btn_reset_zoom.Size = new System.Drawing.Size(142, 52);
+            this.btn_reset_zoom.TabIndex = 8;
+            this.btn_reset_zoom.Text = "Reset Zoom";
+            this.btn_reset_zoom.UseVisualStyleBackColor = true;
+            this.btn_reset_zoom.Click += new System.EventHandler(this.btn_reset_zoom_Click);
+            // 
+            // checkedListYears
+            // 
+            this.checkedListYears.CheckOnClick = true;
+            this.checkedListYears.FormattingEnabled = true;
+            this.checkedListYears.Location = new System.Drawing.Point(9, 27);
+            this.checkedListYears.Name = "checkedListYears";
+            this.checkedListYears.Size = new System.Drawing.Size(192, 142);
+            this.checkedListYears.TabIndex = 9;
             // 
             // Form1
             // 
@@ -228,6 +279,7 @@ namespace myDataViewer
             this.tabHumidity.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartHumidity)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -247,6 +299,10 @@ namespace myDataViewer
         private System.Windows.Forms.CheckedListBox checkedListSensors;
         private System.Windows.Forms.ComboBox comboYear;
         private System.Windows.Forms.CheckedListBox checkedListMonths;
+        private System.Windows.Forms.CheckBox chkbx_crosshairs;
+        private System.Windows.Forms.CheckBox chkbx_zoom;
+        private System.Windows.Forms.Button btn_reset_zoom;
+        private System.Windows.Forms.CheckedListBox checkedListYears;
     }
 }
 

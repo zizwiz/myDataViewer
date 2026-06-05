@@ -468,8 +468,7 @@ namespace myDataViewer
                     double newYMinBoth = posY - (posY - yMin) * (1 - zoomFactor);
                     double newYMaxBoth = posY + (yMax - posY) * (1 - zoomFactor);
 
-                    area.AxisX.ScaleView.Zoom(newXMinBoth, newXMaxBoth);
-                    area.AxisY.ScaleView.Zoom(newYMinBoth, newYMaxBoth);
+                    StartSmoothZoom(chart, newXMinBoth, newXMaxBoth, newYMinBoth, newYMaxBoth);
                 }
             }
             catch

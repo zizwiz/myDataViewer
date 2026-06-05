@@ -14,6 +14,11 @@ namespace myDataViewer
     public partial class Form1 : Form
     {
         private int counter = 0;
+        private Timer zoomTimer = null;
+        private double targetXMin, targetXMax, targetYMin, targetYMax;
+        private int zoomSteps = 10;
+        private int zoomStep = 0;
+
 
         public Form1()
         {
@@ -53,6 +58,7 @@ namespace myDataViewer
             //add this to allow mouse scroll to zoom
             chartTemperature.MouseWheel += chart_MouseWheel;
             chartHumidity.MouseWheel += chart_MouseWheel;
+
 
         }
 
@@ -365,6 +371,18 @@ namespace myDataViewer
                 checkedListSensors.Items.Add(sensor);
         }
 
+        private void chartTemperature_DoubleClick(object sender, EventArgs e)
+        {
+            chartTemperature.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            chartTemperature.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+        }
+
+        private void chartHumidity_DoubleClick(object sender, EventArgs e)
+        {
+            chartHumidity.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            chartHumidity.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+        }
+
         private void btn_reset_chart_Click(object sender, EventArgs e)
         {
             chartTemperature.Series.Clear();
@@ -376,6 +394,7 @@ namespace myDataViewer
         // Wheel scroll zooms both X-Axis and Y-Axis
         // Control + wheel scroll zooms X-Axis
         // Shift + wheel scroll Zooms Y-Axis
+        // Control + Shift + wheel scroll = ultrafine scrolling
         private void chart_MouseWheel(object sender, MouseEventArgs e)
         {
             var chart = sender as Chart;
@@ -392,19 +411,24 @@ namespace myDataViewer
                 double posX = area.AxisX.PixelPositionToValue(e.X);
                 double posY = area.AxisY.PixelPositionToValue(e.Y);
 
-                double zoomFactor = 0.2; // 20% zoom per wheel step
-
                 bool ctrl = (ModifierKeys & Keys.Control) == Keys.Control;
                 bool shift = (ModifierKeys & Keys.Shift) == Keys.Shift;
+
+                double zoomFactor = 0.20;     // normal zoom
+                double fineFactor = 0.05;     // ultra‑fine zoom
+
+                // Ctrl + Shift = ultra‑fine zoom
+                if (ctrl && shift)
+                    zoomFactor = fineFactor;
 
                 // -----------------------------
                 // SCROLL DOWN = ZOOM OUT
                 // -----------------------------
                 if (e.Delta < 0)
                 {
-                    if (ctrl)
+                    if (ctrl && !shift)
                         area.AxisX.ScaleView.ZoomReset(1);   // X only
-                    else if (shift)
+                    else if (shift && !ctrl)
                         area.AxisY.ScaleView.ZoomReset(1);   // Y only
                     else
                     {
@@ -419,8 +443,8 @@ namespace myDataViewer
                 // -----------------------------
                 if (e.Delta > 0)
                 {
-                    // X‑axis only zoom
-                    if (ctrl)
+                    // X‑axis only
+                    if (ctrl && !shift)
                     {
                         double newXMin = posX - (posX - xMin) * (1 - zoomFactor);
                         double newXMax = posX + (xMax - posX) * (1 - zoomFactor);
@@ -428,8 +452,8 @@ namespace myDataViewer
                         return;
                     }
 
-                    // Y‑axis only zoom
-                    if (shift)
+                    // Y‑axis only
+                    if (shift && !ctrl)
                     {
                         double newYMin = posY - (posY - yMin) * (1 - zoomFactor);
                         double newYMax = posY + (yMax - posY) * (1 - zoomFactor);
@@ -437,7 +461,7 @@ namespace myDataViewer
                         return;
                     }
 
-                    // Normal zoom (both axes)
+                    // Both axes
                     double newXMinBoth = posX - (posX - xMin) * (1 - zoomFactor);
                     double newXMaxBoth = posX + (xMax - posX) * (1 - zoomFactor);
 
@@ -450,8 +474,52 @@ namespace myDataViewer
             }
             catch
             {
-                // Ignore zoom errors (e.g., zooming too far)
+                // Ignore zoom errors
             }
         }
+
+        private void StartSmoothZoom(Chart chart, double newXMin, double newXMax, double newYMin, double newYMax)
+        {
+            var area = chart.ChartAreas[0];
+
+            targetXMin = newXMin;
+            targetXMax = newXMax;
+            targetYMin = newYMin;
+            targetYMax = newYMax;
+
+            double startXMin = area.AxisX.ScaleView.ViewMinimum;
+            double startXMax = area.AxisX.ScaleView.ViewMaximum;
+            double startYMin = area.AxisY.ScaleView.ViewMinimum;
+            double startYMax = area.AxisY.ScaleView.ViewMaximum;
+
+            zoomStep = 0;
+
+            if (zoomTimer != null)
+                zoomTimer.Stop();
+
+            zoomTimer = new Timer();
+            zoomTimer.Interval = 15; // smooth animation
+            zoomTimer.Tick += (s, e) =>
+            {
+                zoomStep++;
+                double t = zoomStep / (double)zoomSteps;
+
+                area.AxisX.ScaleView.Zoom(
+                    startXMin + (targetXMin - startXMin) * t,
+                    startXMax + (targetXMax - startXMax) * t
+                );
+
+                area.AxisY.ScaleView.Zoom(
+                    startYMin + (targetYMin - startYMin) * t,
+                    startYMax + (targetYMax - startYMax) * t
+                );
+
+                if (zoomStep >= zoomSteps)
+                    zoomTimer.Stop();
+            };
+
+            zoomTimer.Start();
+        }
+
     }
 }

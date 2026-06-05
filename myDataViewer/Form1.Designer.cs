@@ -44,6 +44,8 @@ namespace myDataViewer
             this.tabHumidity = new System.Windows.Forms.TabPage();
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.btn_reset_chart = new System.Windows.Forms.Button();
+            this.chkCompareMode = new System.Windows.Forms.CheckBox();
             this.checkedListYears = new System.Windows.Forms.CheckedListBox();
             this.btn_reset_zoom = new System.Windows.Forms.Button();
             this.chkbx_zoom = new System.Windows.Forms.CheckBox();
@@ -52,8 +54,6 @@ namespace myDataViewer
             this.btn_close = new System.Windows.Forms.Button();
             this.btnLoadData = new System.Windows.Forms.Button();
             this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
-            this.chkCompareMode = new System.Windows.Forms.CheckBox();
-            this.btn_reset_chart = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -126,6 +126,7 @@ namespace myDataViewer
             this.chartTemperature.Size = new System.Drawing.Size(1215, 416);
             this.chartTemperature.TabIndex = 0;
             this.chartTemperature.Text = "chart1";
+            this.chartTemperature.DoubleClick += new System.EventHandler(this.chartTemperature_DoubleClick);
             // 
             // tabHumidity
             // 
@@ -156,6 +157,7 @@ namespace myDataViewer
             this.chartHumidity.Size = new System.Drawing.Size(1209, 410);
             this.chartHumidity.TabIndex = 0;
             this.chartHumidity.Text = "chart1";
+            this.chartHumidity.DoubleClick += new System.EventHandler(this.chartHumidity_DoubleClick);
             // 
             // panel2
             // 
@@ -174,6 +176,26 @@ namespace myDataViewer
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1229, 194);
             this.panel2.TabIndex = 1;
+            // 
+            // btn_reset_chart
+            // 
+            this.btn_reset_chart.Location = new System.Drawing.Point(864, 133);
+            this.btn_reset_chart.Name = "btn_reset_chart";
+            this.btn_reset_chart.Size = new System.Drawing.Size(142, 52);
+            this.btn_reset_chart.TabIndex = 11;
+            this.btn_reset_chart.Text = "Clear Chart";
+            this.btn_reset_chart.UseVisualStyleBackColor = true;
+            this.btn_reset_chart.Click += new System.EventHandler(this.btn_reset_chart_Click);
+            // 
+            // chkCompareMode
+            // 
+            this.chkCompareMode.AutoSize = true;
+            this.chkCompareMode.Location = new System.Drawing.Point(864, 90);
+            this.chkCompareMode.Name = "chkCompareMode";
+            this.chkCompareMode.Size = new System.Drawing.Size(144, 24);
+            this.chkCompareMode.TabIndex = 10;
+            this.chkCompareMode.Text = "Compare Mode";
+            this.chkCompareMode.UseVisualStyleBackColor = true;
             // 
             // checkedListYears
             // 
@@ -255,26 +277,6 @@ namespace myDataViewer
             this.checkedListSensors.Name = "checkedListSensors";
             this.checkedListSensors.Size = new System.Drawing.Size(386, 142);
             this.checkedListSensors.TabIndex = 0;
-            // 
-            // chkCompareMode
-            // 
-            this.chkCompareMode.AutoSize = true;
-            this.chkCompareMode.Location = new System.Drawing.Point(864, 90);
-            this.chkCompareMode.Name = "chkCompareMode";
-            this.chkCompareMode.Size = new System.Drawing.Size(144, 24);
-            this.chkCompareMode.TabIndex = 10;
-            this.chkCompareMode.Text = "Compare Mode";
-            this.chkCompareMode.UseVisualStyleBackColor = true;
-            // 
-            // btn_reset_chart
-            // 
-            this.btn_reset_chart.Location = new System.Drawing.Point(864, 133);
-            this.btn_reset_chart.Name = "btn_reset_chart";
-            this.btn_reset_chart.Size = new System.Drawing.Size(142, 52);
-            this.btn_reset_chart.TabIndex = 11;
-            this.btn_reset_chart.Text = "Clear Chart";
-            this.btn_reset_chart.UseVisualStyleBackColor = true;
-            this.btn_reset_chart.Click += new System.EventHandler(this.btn_reset_chart_Click);
             // 
             // Form1
             // 

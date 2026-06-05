@@ -373,6 +373,9 @@ namespace myDataViewer
             btn_reset_chart.Visible = false;
         }
 
+        // Wheel scroll zooms both X-Axis and Y-Axis
+        // Control + wheel scroll zooms X-Axis
+        // Shift + wheel scroll Zooms Y-Axis
         private void chart_MouseWheel(object sender, MouseEventArgs e)
         {
             var chart = sender as Chart;
@@ -391,28 +394,64 @@ namespace myDataViewer
 
                 double zoomFactor = 0.2; // 20% zoom per wheel step
 
-                if (e.Delta < 0) // scroll down = zoom OUT
+                bool ctrl = (ModifierKeys & Keys.Control) == Keys.Control;
+                bool shift = (ModifierKeys & Keys.Shift) == Keys.Shift;
+
+                // -----------------------------
+                // SCROLL DOWN = ZOOM OUT
+                // -----------------------------
+                if (e.Delta < 0)
                 {
-                    area.AxisX.ScaleView.ZoomReset(1);
-                    area.AxisY.ScaleView.ZoomReset(1);
+                    if (ctrl)
+                        area.AxisX.ScaleView.ZoomReset(1);   // X only
+                    else if (shift)
+                        area.AxisY.ScaleView.ZoomReset(1);   // Y only
+                    else
+                    {
+                        area.AxisX.ScaleView.ZoomReset(1);   // both
+                        area.AxisY.ScaleView.ZoomReset(1);
+                    }
+                    return;
                 }
-                else if (e.Delta > 0) // scroll up = zoom IN
+
+                // -----------------------------
+                // SCROLL UP = ZOOM IN
+                // -----------------------------
+                if (e.Delta > 0)
                 {
-                    double newXMin = posX - (posX - xMin) * (1 - zoomFactor);
-                    double newXMax = posX + (xMax - posX) * (1 - zoomFactor);
+                    // X‑axis only zoom
+                    if (ctrl)
+                    {
+                        double newXMin = posX - (posX - xMin) * (1 - zoomFactor);
+                        double newXMax = posX + (xMax - posX) * (1 - zoomFactor);
+                        area.AxisX.ScaleView.Zoom(newXMin, newXMax);
+                        return;
+                    }
 
-                    double newYMin = posY - (posY - yMin) * (1 - zoomFactor);
-                    double newYMax = posY + (yMax - posY) * (1 - zoomFactor);
+                    // Y‑axis only zoom
+                    if (shift)
+                    {
+                        double newYMin = posY - (posY - yMin) * (1 - zoomFactor);
+                        double newYMax = posY + (yMax - posY) * (1 - zoomFactor);
+                        area.AxisY.ScaleView.Zoom(newYMin, newYMax);
+                        return;
+                    }
 
-                    area.AxisX.ScaleView.Zoom(newXMin, newXMax);
-                    area.AxisY.ScaleView.Zoom(newYMin, newYMax);
+                    // Normal zoom (both axes)
+                    double newXMinBoth = posX - (posX - xMin) * (1 - zoomFactor);
+                    double newXMaxBoth = posX + (xMax - posX) * (1 - zoomFactor);
+
+                    double newYMinBoth = posY - (posY - yMin) * (1 - zoomFactor);
+                    double newYMaxBoth = posY + (yMax - posY) * (1 - zoomFactor);
+
+                    area.AxisX.ScaleView.Zoom(newXMinBoth, newXMaxBoth);
+                    area.AxisY.ScaleView.Zoom(newYMinBoth, newYMaxBoth);
                 }
             }
             catch
             {
-                // Ignore errors when zooming beyond limits
+                // Ignore zoom errors (e.g., zooming too far)
             }
         }
-
     }
 }

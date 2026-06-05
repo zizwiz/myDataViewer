@@ -45,9 +45,15 @@ namespace myDataViewer
             chartHumidity.ChartAreas[0].AxisX.ToolTip = "Day/Time";
             chartHumidity.ChartAreas[0].AxisY.ToolTip = "Value";
 
+            btn_reset_chart.Visible = false;
             btn_reset_zoom.Visible = false;
             chkbx_zoom.Visible = false;
             chkbx_crosshairs.Visible = false;
+
+            //add this to allow mouse scroll to zoom
+            chartTemperature.MouseWheel += chart_MouseWheel;
+            chartHumidity.MouseWheel += chart_MouseWheel;
+
         }
 
         private void LoadYears()
@@ -166,69 +172,6 @@ namespace myDataViewer
         }
 
 
-        //private void btnLoadData_Click(object sender, EventArgs e)
-        //{
-        //    int counter = 0;
-
-        //    if (checkedListYears.CheckedItems.Count == 0 ||
-        //        checkedListMonths.CheckedItems.Count == 0 ||
-        //        checkedListSensors.CheckedItems.Count == 0)
-        //    {
-        //        MessageBox.Show("Please select a year, month, and at least one sensor.");
-        //        return;
-        //    }
-
-        //    string year = checkedListYears.CheckedItems[0].ToString();
-        //    string month = checkedListMonths.CheckedItems[0].ToString();
-        //    string dataRoot = Path.Combine(Application.StartupPath, "Data", year, month);
-
-        //    chartTemperature.Series.Clear();
-        //    chartHumidity.Series.Clear();
-
-        //    foreach (string sensor in checkedListSensors.CheckedItems)
-        //    {
-        //        counter++;
-
-        //        if (counter > 140)
-        //        {
-        //            MsgBox.Show("I can only draw 140 sensors", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //            return;
-        //        }
-
-        //        string csvPath = Path.Combine(dataRoot, sensor + ".csv");
-        //        if (!File.Exists(csvPath))
-        //            continue;
-
-        //        string seriesName = $"{sensor} - {month} {year}";
-
-        //        var tempSeries = new Series(seriesName)
-        //        {
-        //            ChartType = SeriesChartType.Line,
-        //            XValueType = ChartValueType.Double,
-        //            Color = Color.FromName(ColourList.SelectColour(counter))
-        //        };
-
-        //        var humSeries = new Series(seriesName)
-        //        {
-        //            ChartType = SeriesChartType.Line,
-        //            XValueType = ChartValueType.Double,
-        //            Color = Color.FromName(ColourList.SelectColour(counter))
-        //        };
-
-        //        LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
-
-        //        chartTemperature.Series.Add(tempSeries);
-        //        chartHumidity.Series.Add(humSeries);
-        //    }
-
-        //    //Allow checkboxes
-        //    chkbx_zoom.Visible = true;
-        //    chkbx_crosshairs.Visible = true;
-
-        //    FormatOverlayXAxis(chartTemperature);
-        //    FormatOverlayXAxis(chartHumidity);
-        //}
-
         private void FormatOverlayXAxis(Chart chart)
         {
             var axis = chart.ChartAreas[0].AxisX;
@@ -285,6 +228,8 @@ namespace myDataViewer
                     int p2 = humSeries.Points.AddXY(x, hum);
                     humSeries.Points[p2].ToolTip = $"{humSeries.Name}\nDay {timestamp.Day} {timestamp:HH:mm}\nHumidity: {hum}%";
                 }
+
+                btn_reset_chart.Visible = true;
             }
         }
 
@@ -425,6 +370,49 @@ namespace myDataViewer
             chartTemperature.Series.Clear();
             chartHumidity.Series.Clear();
             counter = 0;
+            btn_reset_chart.Visible = false;
         }
+
+        private void chart_MouseWheel(object sender, MouseEventArgs e)
+        {
+            var chart = sender as Chart;
+            var area = chart.ChartAreas[0];
+
+            try
+            {
+                double xMin = area.AxisX.ScaleView.ViewMinimum;
+                double xMax = area.AxisX.ScaleView.ViewMaximum;
+
+                double yMin = area.AxisY.ScaleView.ViewMinimum;
+                double yMax = area.AxisY.ScaleView.ViewMaximum;
+
+                double posX = area.AxisX.PixelPositionToValue(e.X);
+                double posY = area.AxisY.PixelPositionToValue(e.Y);
+
+                double zoomFactor = 0.2; // 20% zoom per wheel step
+
+                if (e.Delta < 0) // scroll down = zoom OUT
+                {
+                    area.AxisX.ScaleView.ZoomReset(1);
+                    area.AxisY.ScaleView.ZoomReset(1);
+                }
+                else if (e.Delta > 0) // scroll up = zoom IN
+                {
+                    double newXMin = posX - (posX - xMin) * (1 - zoomFactor);
+                    double newXMax = posX + (xMax - posX) * (1 - zoomFactor);
+
+                    double newYMin = posY - (posY - yMin) * (1 - zoomFactor);
+                    double newYMax = posY + (yMax - posY) * (1 - zoomFactor);
+
+                    area.AxisX.ScaleView.Zoom(newXMin, newXMax);
+                    area.AxisY.ScaleView.Zoom(newYMin, newYMax);
+                }
+            }
+            catch
+            {
+                // Ignore errors when zooming beyond limits
+            }
+        }
+
     }
 }

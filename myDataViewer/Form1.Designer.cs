@@ -179,6 +179,7 @@ namespace myDataViewer
             this.checkedListMonths.Name = "checkedListMonths";
             this.checkedListMonths.Size = new System.Drawing.Size(192, 142);
             this.checkedListMonths.TabIndex = 5;
+            this.checkedListMonths.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListMonths_ItemCheck);
             // 
             // btn_close
             // 

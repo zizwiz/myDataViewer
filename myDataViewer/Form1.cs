@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -13,10 +14,10 @@ namespace myDataViewer
     public partial class Form1 : Form
     {
 
-        private readonly string[] Sensors =
-        {
-            "Outside", "Sanctuary", "Thermostat", "Centre", "Gallery"
-        };
+        //private readonly string[] Sensors =
+        //{
+        //    "Outside", "Sanctuary", "Thermostat", "Centre", "Gallery"
+        //};
 
         public Form1()
         {
@@ -31,26 +32,17 @@ namespace myDataViewer
 
             if (Directory.Exists(dataRoot))
             {
-                //var years = Directory.GetDirectories(dataRoot)
-                //    .Select(Path.GetFileName)
-                //    .OrderBy(y => y);
-
-                //comboYear.Items.AddRange(years.ToArray());
                 LoadYears();
-
             }
 
-            checkedListSensors.Items.AddRange(Sensors);
+            //checkedListSensors.Items.AddRange(Sensors);
 
             chartTemperature.ChartAreas.Add(new ChartArea("TempArea"));
             chartHumidity.ChartAreas.Add(new ChartArea("HumArea"));
 
             chartTemperature.Legends.Add(new Legend("TempLegend"));
             chartHumidity.Legends.Add(new Legend("HumLegend"));
-
-            //comboYear.SelectedIndex = 0;
-
-
+            
             chartTemperature.Series.Clear();
             chartTemperature.ChartAreas[0].AxisX.ToolTip = "Day/Time";
             chartTemperature.ChartAreas[0].AxisY.ToolTip = "Value";
@@ -80,12 +72,13 @@ namespace myDataViewer
             foreach (var year in years)
                 checkedListYears.Items.Add(year);
         }
-
         private void LoadMonthsForSelectedYears()
         {
             checkedListMonths.Items.Clear();
 
             string dataRoot = Path.Combine(Application.StartupPath, "Data");
+
+            HashSet<string> months = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
             foreach (string year in checkedListYears.CheckedItems)
             {
@@ -94,86 +87,173 @@ namespace myDataViewer
                 if (!Directory.Exists(yearPath))
                     continue;
 
-                var months = Directory.GetDirectories(yearPath)
-                    .Select(Path.GetFileName)
-                    .OrderBy(m => m);
+                var monthFolders = Directory.GetDirectories(yearPath)
+                    .Select(Path.GetFileName);
 
-                foreach (var month in months)
-                {
-                    if (!checkedListMonths.Items.Contains(month))
-                        checkedListMonths.Items.Add(month);
-                }
+                foreach (var month in monthFolders)
+                    months.Add(month);
             }
+
+            foreach (var month in months.OrderBy(m => m))
+                checkedListMonths.Items.Add(month);
         }
+
+        //private void LoadMonthsForSelectedYears()
+        //{
+        //    checkedListMonths.Items.Clear();
+
+        //    string dataRoot = Path.Combine(Application.StartupPath, "Data");
+
+        //    foreach (string year in checkedListYears.CheckedItems)
+        //    {
+        //        string yearPath = Path.Combine(dataRoot, year);
+
+        //        if (!Directory.Exists(yearPath))
+        //            continue;
+
+        //        var months = Directory.GetDirectories(yearPath)
+        //            .Select(Path.GetFileName)
+        //            .OrderBy(m => m);
+
+        //        foreach (var month in months)
+        //        {
+        //            if (!checkedListMonths.Items.Contains(month))
+        //                checkedListMonths.Items.Add(month);
+        //        }
+        //    }
+        //}
+
+        //private void btnLoadData_Click(object sender, EventArgs e)
+        //{
+        //    int counter = 0;
+
+        //    if (checkedListYears.CheckedItems.Count == 0)
+        //    {
+        //        MessageBox.Show("Please select at least one year.");
+        //        return;
+        //    }
+
+        //    if (checkedListMonths.CheckedItems.Count == 0)
+        //    {
+        //        MessageBox.Show("Please select at least one month.");
+        //        return;
+        //    }
+
+        //    if (checkedListSensors.CheckedItems.Count == 0)
+        //    {
+        //        MessageBox.Show("Please select at least one sensor.");
+        //        return;
+        //    }
+
+        //    chartTemperature.Series.Clear();
+        //    chartHumidity.Series.Clear();
+
+        //    string dataRoot = Path.Combine(Application.StartupPath, "Data");
+
+        //    foreach (string year in checkedListYears.CheckedItems)
+        //    {
+        //        foreach (string month in checkedListMonths.CheckedItems)
+        //        {
+        //            foreach (string sensor in checkedListSensors.CheckedItems)
+        //            {
+        //                counter++;
+
+        //                if (counter > 140)
+        //                {
+        //                    MsgBox.Show("I can only draw 140 sensors", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //                    return;
+        //                }
+
+        //                string csvPath = Path.Combine(dataRoot, year, month, sensor + ".csv");
+
+        //                if (!File.Exists(csvPath))
+        //                    continue;
+
+        //                string seriesName = $"{sensor} - {month} {year}";
+
+        //                var tempSeries = new Series(seriesName)
+        //                {
+        //                    ChartType = SeriesChartType.Line,
+        //                    XValueType = ChartValueType.Double,
+        //                    Color = Color.FromName(ColourList.SelectColour(counter))
+        //                };
+
+        //                var humSeries = new Series(seriesName)
+        //                {
+        //                    ChartType = SeriesChartType.Line,
+        //                    XValueType = ChartValueType.Double,
+        //                    Color = Color.FromName(ColourList.SelectColour(counter))
+        //                };
+
+        //                LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
+
+        //                chartTemperature.Series.Add(tempSeries);
+        //                chartHumidity.Series.Add(humSeries);
+        //            }
+        //        }
+        //    }
+
+        //    //Allow checkboxes
+        //    chkbx_zoom.Visible = true;
+        //    chkbx_crosshairs.Visible = true;
+
+        //    FormatOverlayXAxis(chartTemperature);
+        //    FormatOverlayXAxis(chartHumidity);
+        //}
 
         private void btnLoadData_Click(object sender, EventArgs e)
         {
             int counter = 0;
 
-            if (checkedListYears.CheckedItems.Count == 0)
+            if (checkedListYears.CheckedItems.Count == 0 ||
+                checkedListMonths.CheckedItems.Count == 0 ||
+                checkedListSensors.CheckedItems.Count == 0)
             {
-                MessageBox.Show("Please select at least one year.");
+                MessageBox.Show("Please select a year, month, and at least one sensor.");
                 return;
             }
 
-            if (checkedListMonths.CheckedItems.Count == 0)
-            {
-                MessageBox.Show("Please select at least one month.");
-                return;
-            }
-
-            if (checkedListSensors.CheckedItems.Count == 0)
-            {
-                MessageBox.Show("Please select at least one sensor.");
-                return;
-            }
+            string year = checkedListYears.CheckedItems[0].ToString();
+            string month = checkedListMonths.CheckedItems[0].ToString();
+            string dataRoot = Path.Combine(Application.StartupPath, "Data", year, month);
 
             chartTemperature.Series.Clear();
             chartHumidity.Series.Clear();
 
-            string dataRoot = Path.Combine(Application.StartupPath, "Data");
-
-            foreach (string year in checkedListYears.CheckedItems)
+            foreach (string sensor in checkedListSensors.CheckedItems)
             {
-                foreach (string month in checkedListMonths.CheckedItems)
+                counter++;
+
+                if (counter > 140)
                 {
-                    foreach (string sensor in checkedListSensors.CheckedItems)
-                    {
-                        counter++;
-
-                        if (counter > 140)
-                        {
-                            MsgBox.Show("I can only draw 140 sensors", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            return;
-                        }
-
-                        string csvPath = Path.Combine(dataRoot, year, month, sensor + ".csv");
-
-                        if (!File.Exists(csvPath))
-                            continue;
-
-                        string seriesName = $"{sensor} - {month} {year}";
-
-                        var tempSeries = new Series(seriesName)
-                        {
-                            ChartType = SeriesChartType.Line,
-                            XValueType = ChartValueType.Double,
-                            Color = Color.FromName(ColourList.SelectColour(counter))
-                        };
-
-                        var humSeries = new Series(seriesName)
-                        {
-                            ChartType = SeriesChartType.Line,
-                            XValueType = ChartValueType.Double,
-                            Color = Color.FromName(ColourList.SelectColour(counter))
-                        };
-
-                        LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
-
-                        chartTemperature.Series.Add(tempSeries);
-                        chartHumidity.Series.Add(humSeries);
-                    }
+                    MsgBox.Show("I can only draw 140 sensors", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
+
+                string csvPath = Path.Combine(dataRoot, sensor + ".csv");
+                if (!File.Exists(csvPath))
+                    continue;
+
+                string seriesName = $"{sensor} - {month} {year}";
+
+                var tempSeries = new Series(seriesName)
+                {
+                    ChartType = SeriesChartType.Line,
+                    XValueType = ChartValueType.Double,
+                    Color = Color.FromName(ColourList.SelectColour(counter))
+                };
+
+                var humSeries = new Series(seriesName)
+                {
+                    ChartType = SeriesChartType.Line,
+                    XValueType = ChartValueType.Double,
+                    Color = Color.FromName(ColourList.SelectColour(counter))
+                };
+
+                LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
+
+                chartTemperature.Series.Add(tempSeries);
+                chartHumidity.Series.Add(humSeries);
             }
 
             //Allow checkboxes
@@ -183,92 +263,6 @@ namespace myDataViewer
             FormatOverlayXAxis(chartTemperature);
             FormatOverlayXAxis(chartHumidity);
         }
-
-
-        //private void btnLoadData_Click(object sender, EventArgs e)
-        //{
-        //    int counter = 0;
-        //    // Validate selections
-        //    if (comboYear.SelectedItem == null)
-        //    {
-        //        MsgBox.Show("Please select a year.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return;
-        //    }
-
-        //    if (checkedListMonths.CheckedItems.Count == 0)
-        //    {
-        //        MsgBox.Show("Please select at least one month.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return;
-        //    }
-
-        //    if (checkedListSensors.CheckedItems.Count == 0)
-        //    {
-        //        MsgBox.Show("Please select at least one sensor.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //        return;
-        //    }
-
-        //    string year = comboYear.SelectedItem.ToString();
-        //    string dataRoot = Path.Combine(Application.StartupPath, "Data", year);
-
-        //    // Clear charts
-        //    chartTemperature.Series.Clear();
-        //    chartHumidity.Series.Clear();
-
-        //    // Loop through each selected sensor
-        //    foreach (string sensor in checkedListSensors.CheckedItems)
-        //    {
-        //        // Loop through each selected month
-        //        foreach (string month in checkedListMonths.CheckedItems)
-        //        {
-        //            counter++;
-
-        //            if (counter > 140)
-        //            {
-        //                MsgBox.Show("I can only draw 140 sensors", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //                return;
-        //            }
-
-        //            string csvPath = Path.Combine(dataRoot, month, sensor + ".csv");
-
-        //            if (!File.Exists(csvPath))
-        //                continue;
-
-        //            // Create unique series name e.g. "Outside - April - 2026"
-        //            string seriesNameTemp = $"{sensor} - {month} - {year}";
-        //            string seriesNameHum = $"{sensor} - {month} - {year}";
-
-
-        //            var tempSeries = new Series(seriesNameTemp)
-        //            {
-        //                ChartType = SeriesChartType.Line,
-        //                XValueType = ChartValueType.Double,
-        //                Color = Color.FromName(ColourList.SelectColour(counter))
-        //            };
-
-        //            var humSeries = new Series(seriesNameHum)
-        //            {
-        //                ChartType = SeriesChartType.Line,
-        //                XValueType = ChartValueType.Double,
-        //                Color = Color.FromName(ColourList.SelectColour(counter))
-        //            };
-
-        //            // Load CSV into the series
-        //            LoadCsvIntoSeries(csvPath, tempSeries, humSeries);
-
-        //            // Add to charts
-        //            chartTemperature.Series.Add(tempSeries);
-        //            chartHumidity.Series.Add(humSeries);
-
-        //            //Allow checkboxes
-        //            chkbx_zoom.Visible = true;
-        //            chkbx_crosshairs.Visible = true;
-        //        }
-        //    }
-
-        //    // Format X-axis for overlay mode (hours since start of month)
-        //    FormatOverlayXAxis(chartTemperature);
-        //    FormatOverlayXAxis(chartHumidity);
-        //}
 
         private void FormatOverlayXAxis(Chart chart)
         {
@@ -336,22 +330,6 @@ namespace myDataViewer
         }
 
 
-        //private void comboYear_SelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    checkedListMonths.Items.Clear();
-
-        //    string yearPath = Path.Combine(Application.StartupPath, "Data");
-
-        //    if (Directory.Exists(yearPath))
-        //    {
-        //        var months = Directory.GetDirectories(yearPath)
-        //            .Select(Path.GetFileName)
-        //            .OrderBy(m => m);
-
-        //        checkedListMonths.Items.AddRange(months.ToArray());
-        //    }
-        //}
-
         private double HoursSinceStartOfMonth(DateTime timestamp)
         {
             var start = new DateTime(timestamp.Year, timestamp.Month, 1, 0, 0, 0);
@@ -409,22 +387,71 @@ namespace myDataViewer
 
         private void checkedListYears_ItemCheck(object sender, ItemCheckEventArgs e)
         {
-            if (e.NewValue == CheckState.Checked)
+            // Delay execution until after the check state updates
+            this.BeginInvoke((MethodInvoker)delegate
             {
                 for (int i = 0; i < checkedListYears.Items.Count; i++)
                 {
                     if (i != e.Index)
-                    {
                         checkedListYears.SetItemChecked(i, false);
+                }
+
+                // Now reload months and sensors for the selected year
+                LoadMonthsForSelectedYears();
+                LoadSensorsForSelectedMonths();
+            });
+        }
+
+        private void checkedListMonths_ItemCheck(object sender, ItemCheckEventArgs e)
+        {
+            this.BeginInvoke((MethodInvoker)delegate
+            {
+                for (int i = 0; i < checkedListMonths.Items.Count; i++)
+                {
+                    if (i != e.Index)
+                        checkedListMonths.SetItemChecked(i, false);
+                }
+
+                // Reload sensors for the selected month
+                LoadSensorsForSelectedMonths();
+            });
+        }
+
+        private void LoadSensorsForSelectedMonths()
+        {
+            checkedListSensors.Items.Clear();
+
+            string dataRoot = Path.Combine(Application.StartupPath, "Data");
+
+            HashSet<string> sensors = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+            foreach (string year in checkedListYears.CheckedItems)
+            {
+                foreach (string month in checkedListMonths.CheckedItems)
+                {
+                    string monthPath = Path.Combine(dataRoot, year, month);
+
+                    if (!Directory.Exists(monthPath))
+                        continue;
+
+                    // Find all CSV files in this month folder
+                    var csvFiles = Directory.GetFiles(monthPath, "*.csv");
+
+                    foreach (var file in csvFiles)
+                    {
+                        string sensorName = Path.GetFileNameWithoutExtension(file);
+
+                        // Add only if not already present
+                        sensors.Add(sensorName);
                     }
                 }
             }
 
-            // Delay update until after the check state changes
-            BeginInvoke((MethodInvoker)delegate
-            {
-                LoadMonthsForSelectedYears();
-            });
+            // Populate the checklist
+            foreach (var sensor in sensors.OrderBy(s => s))
+                checkedListSensors.Items.Add(sensor);
         }
+
+       
     }
 }

@@ -45,7 +45,6 @@ namespace myDataViewer
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel2 = new System.Windows.Forms.Panel();
             this.checkedListMonths = new System.Windows.Forms.CheckedListBox();
-            this.comboYear = new System.Windows.Forms.ComboBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.btnLoadData = new System.Windows.Forms.Button();
             this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
@@ -163,7 +162,6 @@ namespace myDataViewer
             this.panel2.Controls.Add(this.chkbx_zoom);
             this.panel2.Controls.Add(this.chkbx_crosshairs);
             this.panel2.Controls.Add(this.checkedListMonths);
-            this.panel2.Controls.Add(this.comboYear);
             this.panel2.Controls.Add(this.btn_close);
             this.panel2.Controls.Add(this.btnLoadData);
             this.panel2.Controls.Add(this.checkedListSensors);
@@ -181,15 +179,6 @@ namespace myDataViewer
             this.checkedListMonths.Name = "checkedListMonths";
             this.checkedListMonths.Size = new System.Drawing.Size(192, 142);
             this.checkedListMonths.TabIndex = 5;
-            // 
-            // comboYear
-            // 
-            this.comboYear.FormattingEnabled = true;
-            this.comboYear.Location = new System.Drawing.Point(864, 122);
-            this.comboYear.Name = "comboYear";
-            this.comboYear.Size = new System.Drawing.Size(121, 28);
-            this.comboYear.TabIndex = 3;
-            this.comboYear.SelectedIndexChanged += new System.EventHandler(this.comboYear_SelectedIndexChanged);
             // 
             // btn_close
             // 
@@ -260,6 +249,7 @@ namespace myDataViewer
             this.checkedListYears.Name = "checkedListYears";
             this.checkedListYears.Size = new System.Drawing.Size(192, 142);
             this.checkedListYears.TabIndex = 9;
+            this.checkedListYears.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListYears_ItemCheck);
             // 
             // Form1
             // 
@@ -297,7 +287,6 @@ namespace myDataViewer
         private System.Windows.Forms.Button btn_close;
         private System.Windows.Forms.Button btnLoadData;
         private System.Windows.Forms.CheckedListBox checkedListSensors;
-        private System.Windows.Forms.ComboBox comboYear;
         private System.Windows.Forms.CheckedListBox checkedListMonths;
         private System.Windows.Forms.CheckBox chkbx_crosshairs;
         private System.Windows.Forms.CheckBox chkbx_zoom;

@@ -44,14 +44,16 @@ namespace myDataViewer
             this.tabHumidity = new System.Windows.Forms.TabPage();
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.checkedListYears = new System.Windows.Forms.CheckedListBox();
+            this.btn_reset_zoom = new System.Windows.Forms.Button();
+            this.chkbx_zoom = new System.Windows.Forms.CheckBox();
+            this.chkbx_crosshairs = new System.Windows.Forms.CheckBox();
             this.checkedListMonths = new System.Windows.Forms.CheckedListBox();
             this.btn_close = new System.Windows.Forms.Button();
             this.btnLoadData = new System.Windows.Forms.Button();
             this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
-            this.chkbx_crosshairs = new System.Windows.Forms.CheckBox();
-            this.chkbx_zoom = new System.Windows.Forms.CheckBox();
-            this.btn_reset_zoom = new System.Windows.Forms.Button();
-            this.checkedListYears = new System.Windows.Forms.CheckedListBox();
+            this.chkCompareMode = new System.Windows.Forms.CheckBox();
+            this.btn_reset_chart = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -157,6 +159,8 @@ namespace myDataViewer
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btn_reset_chart);
+            this.panel2.Controls.Add(this.chkCompareMode);
             this.panel2.Controls.Add(this.checkedListYears);
             this.panel2.Controls.Add(this.btn_reset_zoom);
             this.panel2.Controls.Add(this.chkbx_zoom);
@@ -170,6 +174,48 @@ namespace myDataViewer
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1229, 194);
             this.panel2.TabIndex = 1;
+            // 
+            // checkedListYears
+            // 
+            this.checkedListYears.CheckOnClick = true;
+            this.checkedListYears.FormattingEnabled = true;
+            this.checkedListYears.Location = new System.Drawing.Point(9, 27);
+            this.checkedListYears.Name = "checkedListYears";
+            this.checkedListYears.Size = new System.Drawing.Size(192, 142);
+            this.checkedListYears.TabIndex = 9;
+            this.checkedListYears.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListYears_ItemCheck);
+            // 
+            // btn_reset_zoom
+            // 
+            this.btn_reset_zoom.Location = new System.Drawing.Point(1077, 14);
+            this.btn_reset_zoom.Name = "btn_reset_zoom";
+            this.btn_reset_zoom.Size = new System.Drawing.Size(142, 52);
+            this.btn_reset_zoom.TabIndex = 8;
+            this.btn_reset_zoom.Text = "Reset Zoom";
+            this.btn_reset_zoom.UseVisualStyleBackColor = true;
+            this.btn_reset_zoom.Click += new System.EventHandler(this.btn_reset_zoom_Click);
+            // 
+            // chkbx_zoom
+            // 
+            this.chkbx_zoom.AutoSize = true;
+            this.chkbx_zoom.Location = new System.Drawing.Point(864, 59);
+            this.chkbx_zoom.Name = "chkbx_zoom";
+            this.chkbx_zoom.Size = new System.Drawing.Size(138, 24);
+            this.chkbx_zoom.TabIndex = 7;
+            this.chkbx_zoom.Text = "Allow Zooming";
+            this.chkbx_zoom.UseVisualStyleBackColor = true;
+            this.chkbx_zoom.CheckedChanged += new System.EventHandler(this.chkbx_zoom_CheckedChanged);
+            // 
+            // chkbx_crosshairs
+            // 
+            this.chkbx_crosshairs.AutoSize = true;
+            this.chkbx_crosshairs.Location = new System.Drawing.Point(864, 29);
+            this.chkbx_crosshairs.Name = "chkbx_crosshairs";
+            this.chkbx_crosshairs.Size = new System.Drawing.Size(154, 24);
+            this.chkbx_crosshairs.TabIndex = 6;
+            this.chkbx_crosshairs.Text = "Show Crosshairs";
+            this.chkbx_crosshairs.UseVisualStyleBackColor = true;
+            this.chkbx_crosshairs.CheckedChanged += new System.EventHandler(this.chkbx_crosshairs_CheckedChanged);
             // 
             // checkedListMonths
             // 
@@ -210,47 +256,25 @@ namespace myDataViewer
             this.checkedListSensors.Size = new System.Drawing.Size(386, 142);
             this.checkedListSensors.TabIndex = 0;
             // 
-            // chkbx_crosshairs
+            // chkCompareMode
             // 
-            this.chkbx_crosshairs.AutoSize = true;
-            this.chkbx_crosshairs.Location = new System.Drawing.Point(864, 29);
-            this.chkbx_crosshairs.Name = "chkbx_crosshairs";
-            this.chkbx_crosshairs.Size = new System.Drawing.Size(154, 24);
-            this.chkbx_crosshairs.TabIndex = 6;
-            this.chkbx_crosshairs.Text = "Show Crosshairs";
-            this.chkbx_crosshairs.UseVisualStyleBackColor = true;
-            this.chkbx_crosshairs.CheckedChanged += new System.EventHandler(this.chkbx_crosshairs_CheckedChanged);
+            this.chkCompareMode.AutoSize = true;
+            this.chkCompareMode.Location = new System.Drawing.Point(864, 90);
+            this.chkCompareMode.Name = "chkCompareMode";
+            this.chkCompareMode.Size = new System.Drawing.Size(144, 24);
+            this.chkCompareMode.TabIndex = 10;
+            this.chkCompareMode.Text = "Compare Mode";
+            this.chkCompareMode.UseVisualStyleBackColor = true;
             // 
-            // chkbx_zoom
+            // btn_reset_chart
             // 
-            this.chkbx_zoom.AutoSize = true;
-            this.chkbx_zoom.Location = new System.Drawing.Point(864, 59);
-            this.chkbx_zoom.Name = "chkbx_zoom";
-            this.chkbx_zoom.Size = new System.Drawing.Size(138, 24);
-            this.chkbx_zoom.TabIndex = 7;
-            this.chkbx_zoom.Text = "Allow Zooming";
-            this.chkbx_zoom.UseVisualStyleBackColor = true;
-            this.chkbx_zoom.CheckedChanged += new System.EventHandler(this.chkbx_zoom_CheckedChanged);
-            // 
-            // btn_reset_zoom
-            // 
-            this.btn_reset_zoom.Location = new System.Drawing.Point(1077, 14);
-            this.btn_reset_zoom.Name = "btn_reset_zoom";
-            this.btn_reset_zoom.Size = new System.Drawing.Size(142, 52);
-            this.btn_reset_zoom.TabIndex = 8;
-            this.btn_reset_zoom.Text = "Reset Zoom";
-            this.btn_reset_zoom.UseVisualStyleBackColor = true;
-            this.btn_reset_zoom.Click += new System.EventHandler(this.btn_reset_zoom_Click);
-            // 
-            // checkedListYears
-            // 
-            this.checkedListYears.CheckOnClick = true;
-            this.checkedListYears.FormattingEnabled = true;
-            this.checkedListYears.Location = new System.Drawing.Point(9, 27);
-            this.checkedListYears.Name = "checkedListYears";
-            this.checkedListYears.Size = new System.Drawing.Size(192, 142);
-            this.checkedListYears.TabIndex = 9;
-            this.checkedListYears.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListYears_ItemCheck);
+            this.btn_reset_chart.Location = new System.Drawing.Point(864, 133);
+            this.btn_reset_chart.Name = "btn_reset_chart";
+            this.btn_reset_chart.Size = new System.Drawing.Size(142, 52);
+            this.btn_reset_chart.TabIndex = 11;
+            this.btn_reset_chart.Text = "Clear Chart";
+            this.btn_reset_chart.UseVisualStyleBackColor = true;
+            this.btn_reset_chart.Click += new System.EventHandler(this.btn_reset_chart_Click);
             // 
             // Form1
             // 
@@ -293,6 +317,8 @@ namespace myDataViewer
         private System.Windows.Forms.CheckBox chkbx_zoom;
         private System.Windows.Forms.Button btn_reset_zoom;
         private System.Windows.Forms.CheckedListBox checkedListYears;
+        private System.Windows.Forms.CheckBox chkCompareMode;
+        private System.Windows.Forms.Button btn_reset_chart;
     }
 }
 

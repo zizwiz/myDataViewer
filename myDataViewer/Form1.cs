@@ -19,6 +19,13 @@ namespace myDataViewer
         private int zoomSteps = 10;
         private int zoomStep = 0;
 
+        //used to pop and push zoom levels when using mouse scroll to zoom in and out
+        private Stack<(double xMin, double xMax, double yMin, double yMax)> TemperaturezoomHistory
+            = new Stack<(double, double, double, double)>();
+
+        private Stack<(double xMin, double xMax, double yMin, double yMax)> HumidityzoomHistory
+            = new Stack<(double, double, double, double)>();
+
 
         public Form1()
         {
@@ -373,19 +380,30 @@ namespace myDataViewer
 
         private void chartTemperature_DoubleClick(object sender, EventArgs e)
         {
+            //chartTemperature.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            //chartTemperature.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+
+            TemperaturezoomHistory.Clear();
             chartTemperature.ChartAreas[0].AxisX.ScaleView.ZoomReset();
             chartTemperature.ChartAreas[0].AxisY.ScaleView.ZoomReset();
         }
 
         private void chartHumidity_DoubleClick(object sender, EventArgs e)
         {
+            //chartHumidity.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+            //chartHumidity.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+
+            HumidityzoomHistory.Clear();
             chartHumidity.ChartAreas[0].AxisX.ScaleView.ZoomReset();
             chartHumidity.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+
         }
 
         private void btn_reset_chart_Click(object sender, EventArgs e)
         {
+            TemperaturezoomHistory.Clear();
             chartTemperature.Series.Clear();
+            HumidityzoomHistory.Clear();
             chartHumidity.Series.Clear();
             counter = 0;
             btn_reset_chart.Visible = false;
@@ -417,6 +435,26 @@ namespace myDataViewer
                 double zoomFactor = 0.20;     // normal zoom
                 double fineFactor = 0.05;     // ultra‑fine zoom
 
+                //used to push and pop zoom levels in and out.
+                if (tabControl1.SelectedIndex.Equals(0))
+                {
+                    TemperaturezoomHistory.Push((
+                        area.AxisX.ScaleView.ViewMinimum,
+                        area.AxisX.ScaleView.ViewMaximum,
+                        area.AxisY.ScaleView.ViewMinimum,
+                        area.AxisY.ScaleView.ViewMaximum
+                    ));
+                }
+                else
+                {
+                    HumidityzoomHistory.Push((
+                        area.AxisX.ScaleView.ViewMinimum,
+                        area.AxisX.ScaleView.ViewMaximum,
+                        area.AxisY.ScaleView.ViewMinimum,
+                        area.AxisY.ScaleView.ViewMaximum
+                    ));
+                }
+
                 // Ctrl + Shift = ultra‑fine zoom
                 if (ctrl && shift)
                     zoomFactor = fineFactor;
@@ -424,19 +462,43 @@ namespace myDataViewer
                 // -----------------------------
                 // SCROLL DOWN = ZOOM OUT
                 // -----------------------------
-                if (e.Delta < 0)
+                //if (e.Delta < 0)
+                //{
+                //    if (ctrl && !shift)
+                //        area.AxisX.ScaleView.ZoomReset(1);   // X only
+                //    else if (shift && !ctrl)
+                //        area.AxisY.ScaleView.ZoomReset(1);   // Y only
+                //    else
+                //    {
+                //        area.AxisX.ScaleView.ZoomReset(1);   // both
+                //        area.AxisY.ScaleView.ZoomReset(1);
+                //    }
+                //    return;
+                //}
+                if (e.Delta < 0) // scroll down = zoom OUT
                 {
-                    if (ctrl && !shift)
-                        area.AxisX.ScaleView.ZoomReset(1);   // X only
-                    else if (shift && !ctrl)
-                        area.AxisY.ScaleView.ZoomReset(1);   // Y only
+                    if (tabControl1.SelectedIndex.Equals(0))
+                    {
+                        if (TemperaturezoomHistory.Count > 0)
+                        {
+                            var prev = TemperaturezoomHistory.Pop();
+
+                            StartSmoothZoom(chartTemperature, prev.xMin, prev.xMax, prev.yMin, prev.yMax);
+                        }
+                    }
                     else
                     {
-                        area.AxisX.ScaleView.ZoomReset(1);   // both
-                        area.AxisY.ScaleView.ZoomReset(1);
+                        if (HumidityzoomHistory.Count > 0)
+                        {
+                            var prev = HumidityzoomHistory.Pop();
+
+                           StartSmoothZoom(chartHumidity, prev.xMin, prev.xMax, prev.yMin, prev.yMax);
+                        }
                     }
+
                     return;
                 }
+
 
                 // -----------------------------
                 // SCROLL UP = ZOOM IN

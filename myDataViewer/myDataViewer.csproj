@@ -73,6 +73,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="data\2026\May\Centre.csv" />
+    <None Include="data\2026\May\Gallery.csv" />
+    <None Include="data\2026\May\Outside.csv" />
+    <None Include="data\2026\May\Sanctuary.csv" />
+    <None Include="data\2026\May\Thermostat.csv" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -132,6 +132,8 @@ namespace myDataViewer
             this.chartTemperature.TabIndex = 0;
             this.chartTemperature.Text = "chart1";
             this.chartTemperature.DoubleClick += new System.EventHandler(this.chartTemperature_DoubleClick);
+            this.chartTemperature.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart_MouseDown);
+            this.chartTemperature.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart_MouseMove);
             // 
             // tabHumidity
             // 

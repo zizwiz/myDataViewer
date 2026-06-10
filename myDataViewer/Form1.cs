@@ -38,7 +38,7 @@ namespace myDataViewer
          */
         private VerticalLineAnnotation liveCrosshairX;
         private HorizontalLineAnnotation liveCrosshairY;
-        private bool crosshairActive = false;
+        private bool crosshairActive;
 
 
         public Form1()
@@ -80,8 +80,8 @@ namespace myDataViewer
             // We create the crosshairs that follow the mouse,
             // left click = visible 
             // right click = invisible
-          //  CreateCrosshair(chartTemperature);
-           // CreateCrosshair(chartHumidity);
+            CreateCrosshair(chartTemperature);
+            CreateCrosshair(chartHumidity);
 
 
         }
@@ -219,10 +219,6 @@ namespace myDataViewer
                 double end = day * 24;
                 axis.CustomLabels.Add(start, end, $"{day}");
             }
-
-            //chart.BackColor = Color.Transparent;
-            //chart.ChartAreas[0].BackColor = Color.Transparent;
-
         }
 
 
@@ -651,83 +647,36 @@ namespace myDataViewer
             zoomTimer.Start();
         }
         
-        /*
-        //private void CreateCrosshair(Chart chart)
-        //{
-        //    liveCrosshairX = new VerticalLineAnnotation
-        //    {
-        //        AxisX = chart.ChartAreas[0].AxisX,
-        //        AxisY = chart.ChartAreas[0].AxisY,
-        //        ClipToChartArea = chart.ChartAreas[0].Name,
-        //        LineColor = Color.Red,
-        //        LineWidth = 4,
-        //        LineDashStyle = ChartDashStyle.Solid,
-        //        Visible = false
-        //    };
-
-        //    liveCrosshairY = new HorizontalLineAnnotation
-        //    {
-        //        AxisX = chart.ChartAreas[0].AxisX,
-        //        AxisY = chart.ChartAreas[0].AxisY,
-        //        ClipToChartArea = chart.ChartAreas[0].Name,
-        //        LineColor = Color.Red,
-        //        LineWidth = 4,
-        //        LineDashStyle = ChartDashStyle.Solid,
-        //        Visible = false
-        //    };
-
-        //    chart.Annotations.Add(liveCrosshairX);
-        //    chart.Annotations.Add(liveCrosshairY);
-        //}
-
-        private void CreateCrosshair(Chart chart)
+        
+       private void CreateCrosshair(Chart chart)
         {
             var area = chart.ChartAreas[0];
 
             var crossX = new VerticalLineAnnotation
             {
                 AxisX = area.AxisX,
-                AxisY = area.AxisY,
                 ClipToChartArea = area.Name,
                 LineColor = Color.Red,
                 LineWidth = 1,
                 Visible = false,
+                IsInfinitive = true,
                 Name = chart.Name + "_CrossX"
             };
 
             var crossY = new HorizontalLineAnnotation
             {
-                AxisX = area.AxisX,
                 AxisY = area.AxisY,
                 ClipToChartArea = area.Name,
                 LineColor = Color.Red,
                 LineWidth = 1,
                 Visible = false,
+                IsInfinitive = true,
                 Name = chart.Name + "_CrossY"
             };
 
             chart.Annotations.Add(crossX);
             chart.Annotations.Add(crossY);
         }
-
-
-
-        //private void chart_MouseMove(object sender, MouseEventArgs e)
-        //{
-        //if (!crosshairActive)
-        //    return;
-
-        //var chart = sender as Chart;
-        //var area = chart.ChartAreas[0];
-
-        //double xVal = area.AxisX.PixelPositionToValue(e.X);
-        //double yVal = area.AxisY.PixelPositionToValue(e.Y);
-
-        //liveCrosshairX.X = xVal;
-        //liveCrosshairY.Y = yVal;
-
-        //chart.Invalidate();
-        //}
 
         private void chart_MouseMove(object sender, MouseEventArgs e)
         {
@@ -786,38 +735,5 @@ namespace myDataViewer
                 chart.Invalidate();
             }
         }
-
-
-
-        //private void chart_MouseDown(object sender, MouseEventArgs e)
-        //{
-        //    //var chart = chartTemperature; // = sender as Chart;
-
-        //    //if (tabControl1.SelectedIndex.Equals(1))
-        //    //{
-        //    //    chart = chartHumidity;
-        //    //}
-
-        //    var chart = sender as Chart;
-
-        //   // CreateCrosshair(chart);
-
-        //    if (e.Button == MouseButtons.Left)
-        //    {
-        //        crosshairActive = true;
-        //        liveCrosshairX.Visible = true;
-        //        liveCrosshairY.Visible = true;
-
-        //        // Force immediate update
-        //        chart_MouseMove(sender, e);
-        //    }
-        //    else if (e.Button == MouseButtons.Right)
-        //    {
-        //        crosshairActive = false;
-        //        liveCrosshairX.Visible = false;
-        //        liveCrosshairY.Visible = false;
-        //        chart.Invalidate();
-        //    }
-        //} */
     }
 }

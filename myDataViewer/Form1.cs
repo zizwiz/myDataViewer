@@ -26,6 +26,20 @@ namespace myDataViewer
         private Stack<(double xMin, double xMax, double yMin, double yMax)> HumidityzoomHistory
             = new Stack<(double, double, double, double)>();
 
+        //used for moving crosshairs
+        /*
+         * Hovering = Crosshair follows the mouse position (but stays invisible).
+           Left‑click = Crosshair becomes visible and locks to the mouse.
+           Move mouse = Crosshair moves with the mouse.
+           Right‑click = Crosshair disappears.
+           Works with zoom = Crosshair stays aligned with the zoomed view.
+           Works with compare mode = Crosshair overlays all series. 
+           
+         */
+        private VerticalLineAnnotation liveCrosshairX;
+        private HorizontalLineAnnotation liveCrosshairY;
+        private bool crosshairActive = false;
+
 
         public Form1()
         {
@@ -43,12 +57,9 @@ namespace myDataViewer
                 LoadYears();
             }
 
-            chartTemperature.ChartAreas.Add(new ChartArea("TempArea"));
-            chartHumidity.ChartAreas.Add(new ChartArea("HumArea"));
-
             chartTemperature.Legends.Add(new Legend("TempLegend"));
             chartHumidity.Legends.Add(new Legend("HumLegend"));
-            
+
             chartTemperature.Series.Clear();
             chartTemperature.ChartAreas[0].AxisX.ToolTip = "Day/Time";
             chartTemperature.ChartAreas[0].AxisY.ToolTip = "Value";
@@ -65,6 +76,12 @@ namespace myDataViewer
             //add this to allow mouse scroll to zoom
             chartTemperature.MouseWheel += chart_MouseWheel;
             chartHumidity.MouseWheel += chart_MouseWheel;
+
+            // We create the crosshairs that follow the mouse,
+            // left click = visible 
+            // right click = invisible
+          //  CreateCrosshair(chartTemperature);
+           // CreateCrosshair(chartHumidity);
 
 
         }
@@ -85,6 +102,7 @@ namespace myDataViewer
             foreach (var year in years)
                 checkedListYears.Items.Add(year);
         }
+
         private void LoadMonthsForSelectedYears()
         {
             checkedListMonths.Items.Clear();
@@ -156,15 +174,15 @@ namespace myDataViewer
 
                 var tempSeries = new Series(seriesName)
                 {
-                    ChartType = SeriesChartType.Line,
+                    ChartType = SeriesChartType.FastLine,
                     XValueType = ChartValueType.Double,
                     Color = Color.FromName(ColourList.SelectColour(counter)),
-                   // BorderWidth = 1
+                    // BorderWidth = 1
                 };
 
                 var humSeries = new Series(seriesName)
                 {
-                    ChartType = SeriesChartType.Line,
+                    ChartType = SeriesChartType.FastLine,
                     XValueType = ChartValueType.Double,
                     Color = Color.FromName(ColourList.SelectColour(counter)),
                     //BorderWidth = 2
@@ -201,6 +219,10 @@ namespace myDataViewer
                 double end = day * 24;
                 axis.CustomLabels.Add(start, end, $"{day}");
             }
+
+            //chart.BackColor = Color.Transparent;
+            //chart.ChartAreas[0].BackColor = Color.Transparent;
+
         }
 
 
@@ -239,7 +261,8 @@ namespace myDataViewer
                 {
                     //humSeries.Points.AddXY(x, hum);
                     int p2 = humSeries.Points.AddXY(x, hum);
-                    humSeries.Points[p2].ToolTip = $"{humSeries.Name}\nDay {timestamp.Day} {timestamp:HH:mm}\nHumidity: {hum}%";
+                    humSeries.Points[p2].ToolTip =
+                        $"{humSeries.Name}\nDay {timestamp.Day} {timestamp:HH:mm}\nHumidity: {hum}%";
                 }
 
                 btn_reset_chart.Visible = true;
@@ -299,6 +322,7 @@ namespace myDataViewer
         }
 
 
+
         private void btn_reset_zoom_Click(object sender, EventArgs e)
         {
             // zoom reset by 1 level at a time. Add 1 as parameter of ZoomReset
@@ -315,32 +339,32 @@ namespace myDataViewer
         {
             // Delay execution until after the check state updates
             this.BeginInvoke((MethodInvoker)delegate
-            {
-                for (int i = 0; i < checkedListYears.Items.Count; i++)
-                {
-                    if (i != e.Index)
-                        checkedListYears.SetItemChecked(i, false);
-                }
+           {
+               for (int i = 0; i < checkedListYears.Items.Count; i++)
+               {
+                   if (i != e.Index)
+                       checkedListYears.SetItemChecked(i, false);
+               }
 
                 // Now reload months and sensors for the selected year
                 LoadMonthsForSelectedYears();
-                LoadSensorsForSelectedMonths();
-            });
+               LoadSensorsForSelectedMonths();
+           });
         }
 
         private void checkedListMonths_ItemCheck(object sender, ItemCheckEventArgs e)
         {
             this.BeginInvoke((MethodInvoker)delegate
-            {
-                for (int i = 0; i < checkedListMonths.Items.Count; i++)
-                {
-                    if (i != e.Index)
-                        checkedListMonths.SetItemChecked(i, false);
-                }
+           {
+               for (int i = 0; i < checkedListMonths.Items.Count; i++)
+               {
+                   if (i != e.Index)
+                       checkedListMonths.SetItemChecked(i, false);
+               }
 
                 // Reload sensors for the selected month
                 LoadSensorsForSelectedMonths();
-            });
+           });
         }
 
         private void LoadSensorsForSelectedMonths()
@@ -380,9 +404,6 @@ namespace myDataViewer
 
         private void chartTemperature_DoubleClick(object sender, EventArgs e)
         {
-            //chartTemperature.ChartAreas[0].AxisX.ScaleView.ZoomReset();
-            //chartTemperature.ChartAreas[0].AxisY.ScaleView.ZoomReset();
-
             TemperaturezoomHistory.Clear();
             chartTemperature.ChartAreas[0].AxisX.ScaleView.ZoomReset();
             chartTemperature.ChartAreas[0].AxisY.ScaleView.ZoomReset();
@@ -390,14 +411,74 @@ namespace myDataViewer
 
         private void chartHumidity_DoubleClick(object sender, EventArgs e)
         {
-            //chartHumidity.ChartAreas[0].AxisX.ScaleView.ZoomReset();
-            //chartHumidity.ChartAreas[0].AxisY.ScaleView.ZoomReset();
-
             HumidityzoomHistory.Clear();
             chartHumidity.ChartAreas[0].AxisX.ScaleView.ZoomReset();
             chartHumidity.ChartAreas[0].AxisY.ScaleView.ZoomReset();
 
         }
+
+        private void btn_save_chart_image_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.Title = "Save Chart As Image";
+                    dialog.Filter =
+                        "JPEG Image (*.jpg)|*.jpg|PNG Image (*.png)|*.png|Bitmap Image (*.bmp)|*.bmp";
+                    dialog.DefaultExt = "png";
+                    dialog.AddExtension = true;
+
+                    // Show dialog and validate selection
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        // Determine chosen format
+                        ChartImageFormat format;
+                        string ext = Path.GetExtension(dialog.FileName).ToLower();
+
+                        switch (ext)
+                        {
+                            case ".jpg":
+                            case ".jpeg":
+                                format = ChartImageFormat.Jpeg;
+                                break;
+                            case ".png":
+                                format = ChartImageFormat.Png;
+                                break;
+                            case ".bmp":
+                                format = ChartImageFormat.Bmp;
+                                break;
+                            default:
+                                MessageBox.Show("Unsupported file format.", "Error");
+                                return;
+                        }
+
+                        // Save the chart safely
+                        if (tabControl1.SelectedIndex.Equals(0))
+                        {
+                            chartTemperature.SaveImage(dialog.FileName, format);
+                        }
+                        else
+                        {
+                            chartHumidity.SaveImage(dialog.FileName, format);
+                        }
+
+                        MsgBox.Show("Chart saved successfully", "Success", MessageBoxButtons.OK,
+                            MessageBoxIcon.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MsgBox.Show($"An error occurred while saving the chart:\n{ex.Message}",
+                    "Save Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+
+
 
         private void btn_reset_chart_Click(object sender, EventArgs e)
         {
@@ -462,19 +543,7 @@ namespace myDataViewer
                 // -----------------------------
                 // SCROLL DOWN = ZOOM OUT
                 // -----------------------------
-                //if (e.Delta < 0)
-                //{
-                //    if (ctrl && !shift)
-                //        area.AxisX.ScaleView.ZoomReset(1);   // X only
-                //    else if (shift && !ctrl)
-                //        area.AxisY.ScaleView.ZoomReset(1);   // Y only
-                //    else
-                //    {
-                //        area.AxisX.ScaleView.ZoomReset(1);   // both
-                //        area.AxisY.ScaleView.ZoomReset(1);
-                //    }
-                //    return;
-                //}
+
                 if (e.Delta < 0) // scroll down = zoom OUT
                 {
                     if (tabControl1.SelectedIndex.Equals(0))
@@ -492,7 +561,7 @@ namespace myDataViewer
                         {
                             var prev = HumidityzoomHistory.Pop();
 
-                           StartSmoothZoom(chartHumidity, prev.xMin, prev.xMax, prev.yMin, prev.yMax);
+                            StartSmoothZoom(chartHumidity, prev.xMin, prev.xMax, prev.yMin, prev.yMax);
                         }
                     }
 
@@ -581,6 +650,174 @@ namespace myDataViewer
 
             zoomTimer.Start();
         }
+        
+        /*
+        //private void CreateCrosshair(Chart chart)
+        //{
+        //    liveCrosshairX = new VerticalLineAnnotation
+        //    {
+        //        AxisX = chart.ChartAreas[0].AxisX,
+        //        AxisY = chart.ChartAreas[0].AxisY,
+        //        ClipToChartArea = chart.ChartAreas[0].Name,
+        //        LineColor = Color.Red,
+        //        LineWidth = 4,
+        //        LineDashStyle = ChartDashStyle.Solid,
+        //        Visible = false
+        //    };
 
+        //    liveCrosshairY = new HorizontalLineAnnotation
+        //    {
+        //        AxisX = chart.ChartAreas[0].AxisX,
+        //        AxisY = chart.ChartAreas[0].AxisY,
+        //        ClipToChartArea = chart.ChartAreas[0].Name,
+        //        LineColor = Color.Red,
+        //        LineWidth = 4,
+        //        LineDashStyle = ChartDashStyle.Solid,
+        //        Visible = false
+        //    };
+
+        //    chart.Annotations.Add(liveCrosshairX);
+        //    chart.Annotations.Add(liveCrosshairY);
+        //}
+
+        private void CreateCrosshair(Chart chart)
+        {
+            var area = chart.ChartAreas[0];
+
+            var crossX = new VerticalLineAnnotation
+            {
+                AxisX = area.AxisX,
+                AxisY = area.AxisY,
+                ClipToChartArea = area.Name,
+                LineColor = Color.Red,
+                LineWidth = 1,
+                Visible = false,
+                Name = chart.Name + "_CrossX"
+            };
+
+            var crossY = new HorizontalLineAnnotation
+            {
+                AxisX = area.AxisX,
+                AxisY = area.AxisY,
+                ClipToChartArea = area.Name,
+                LineColor = Color.Red,
+                LineWidth = 1,
+                Visible = false,
+                Name = chart.Name + "_CrossY"
+            };
+
+            chart.Annotations.Add(crossX);
+            chart.Annotations.Add(crossY);
+        }
+
+
+
+        //private void chart_MouseMove(object sender, MouseEventArgs e)
+        //{
+        //if (!crosshairActive)
+        //    return;
+
+        //var chart = sender as Chart;
+        //var area = chart.ChartAreas[0];
+
+        //double xVal = area.AxisX.PixelPositionToValue(e.X);
+        //double yVal = area.AxisY.PixelPositionToValue(e.Y);
+
+        //liveCrosshairX.X = xVal;
+        //liveCrosshairY.Y = yVal;
+
+        //chart.Invalidate();
+        //}
+
+        private void chart_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!crosshairActive)
+                return;
+
+            var chart = sender as Chart;
+            var area = chart.ChartAreas[0];
+
+            // Get plot area boundaries in pixels
+            double xMinPix = area.AxisX.ValueToPixelPosition(area.AxisX.Minimum);
+            double xMaxPix = area.AxisX.ValueToPixelPosition(area.AxisX.Maximum);
+            double yMinPix = area.AxisY.ValueToPixelPosition(area.AxisY.Minimum);
+            double yMaxPix = area.AxisY.ValueToPixelPosition(area.AxisY.Maximum);
+
+            // If mouse is outside plot area → do nothing
+            if (e.X < xMinPix || e.X > xMaxPix || e.Y < yMaxPix || e.Y > yMinPix)
+                return;
+
+            // Convert pixel → axis values (safe now)
+            double xVal = area.AxisX.PixelPositionToValue(e.X);
+            double yVal = area.AxisY.PixelPositionToValue(e.Y);
+
+            var crossX = chart.Annotations[chart.Name + "_CrossX"] as VerticalLineAnnotation;
+            var crossY = chart.Annotations[chart.Name + "_CrossY"] as HorizontalLineAnnotation;
+
+            crossX.X = xVal;
+            crossY.Y = yVal;
+
+            chart.Invalidate();
+        }
+
+
+        private void chart_MouseDown(object sender, MouseEventArgs e)
+        {
+            var chart = sender as Chart;
+
+            var crossX = chart.Annotations[chart.Name + "_CrossX"];
+            var crossY = chart.Annotations[chart.Name + "_CrossY"];
+
+            if (e.Button == MouseButtons.Left)
+            {
+                crosshairActive = true;
+                crossX.Visible = true;
+                crossY.Visible = true;
+
+                // Force immediate update
+                chart_MouseMove(sender, e);
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                crosshairActive = false;
+                crossX.Visible = false;
+                crossY.Visible = false;
+
+                chart.Invalidate();
+            }
+        }
+
+
+
+        //private void chart_MouseDown(object sender, MouseEventArgs e)
+        //{
+        //    //var chart = chartTemperature; // = sender as Chart;
+
+        //    //if (tabControl1.SelectedIndex.Equals(1))
+        //    //{
+        //    //    chart = chartHumidity;
+        //    //}
+
+        //    var chart = sender as Chart;
+
+        //   // CreateCrosshair(chart);
+
+        //    if (e.Button == MouseButtons.Left)
+        //    {
+        //        crosshairActive = true;
+        //        liveCrosshairX.Visible = true;
+        //        liveCrosshairY.Visible = true;
+
+        //        // Force immediate update
+        //        chart_MouseMove(sender, e);
+        //    }
+        //    else if (e.Button == MouseButtons.Right)
+        //    {
+        //        crosshairActive = false;
+        //        liveCrosshairX.Visible = false;
+        //        liveCrosshairY.Visible = false;
+        //        chart.Invalidate();
+        //    }
+        //} */
     }
 }

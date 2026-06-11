@@ -100,8 +100,6 @@ namespace myDataViewer
         {
             checkedListYears.Items.Clear();
 
-            string dataRoot = Path.Combine(Application.StartupPath, "Data");
-
             if (!Directory.Exists(dataRoot))
                 return;
 
@@ -116,8 +114,6 @@ namespace myDataViewer
         private void LoadMonthsForSelectedYears()
         {
             checkedListMonths.Items.Clear();
-
-            string dataRoot = Path.Combine(Application.StartupPath, "Data");
 
             HashSet<string> months = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -151,7 +147,6 @@ namespace myDataViewer
 
             string year = checkedListYears.CheckedItems[0].ToString();
             string month = checkedListMonths.CheckedItems[0].ToString();
-            string dataRoot = Path.Combine(Application.StartupPath, "Data", year, month);
 
             // NORMAL MODE: clear charts
             if (!chkCompareMode.Checked)
@@ -171,7 +166,7 @@ namespace myDataViewer
                     return;
                 }
 
-                string csvPath = Path.Combine(dataRoot, sensor + ".csv");
+                string csvPath = Path.Combine(dataRoot, year, month, sensor + ".csv");
                 if (!File.Exists(csvPath))
                     continue;
 
@@ -328,23 +323,6 @@ namespace myDataViewer
             }
         }
 
-        //private void SetZoomEnabled(Chart chart, bool enabled)
-        //{
-        //    btn_reset_zoom.Visible = enabled;
-
-        //    var area = chart.ChartAreas[0];
-
-        //    area.CursorX.IsUserEnabled = enabled;
-        //    area.CursorY.IsUserEnabled = enabled;
-        //    area.CursorX.IsUserSelectionEnabled = enabled;
-        //    area.CursorY.IsUserSelectionEnabled = enabled;
-
-        //    // NEW: disable mouse wheel zoom when zoom checkbox is OFF
-        //    area.AxisX.ScaleView.Zoomable = enabled;
-        //    area.AxisY.ScaleView.Zoomable = enabled;
-        //}
-
-
         private void SetCrosshairEnabled(Chart chart, bool enabled)
         {
             chart.ChartAreas[0].CursorX.IsUserEnabled = enabled;
@@ -406,8 +384,6 @@ namespace myDataViewer
         private void LoadSensorsForSelectedMonths()
         {
             checkedListSensors.Items.Clear();
-
-            string dataRoot = Path.Combine(Application.StartupPath, "Data");
 
             HashSet<string> sensors = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 

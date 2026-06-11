@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using CenteredMessagebox;
+using myDataViewer.help;
 
 namespace myDataViewer
 {
@@ -698,6 +699,12 @@ namespace myDataViewer
                 checkedListMonths.Visible = true;
                 checkedListSensors.Visible = true;
             }
+        }
+
+        private void btn_help_Click(object sender, EventArgs e)
+        {
+            help_form help = new help_form();
+            help.Show();
         }
 
         private void CreateCrosshair(Chart chart)

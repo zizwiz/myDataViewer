@@ -57,6 +57,7 @@ namespace myDataViewer
             this.panel3 = new System.Windows.Forms.Panel();
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btn_open_data_location = new System.Windows.Forms.Button();
+            this.btn_help = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -149,6 +150,7 @@ namespace myDataViewer
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btn_help);
             this.panel2.Controls.Add(this.btn_open_data_location);
             this.panel2.Controls.Add(this.btn_save_chart_image);
             this.panel2.Controls.Add(this.btn_reset_chart);
@@ -190,7 +192,7 @@ namespace myDataViewer
             // chkCompareMode
             // 
             this.chkCompareMode.AutoSize = true;
-            this.chkCompareMode.Location = new System.Drawing.Point(864, 90);
+            this.chkCompareMode.Location = new System.Drawing.Point(864, 59);
             this.chkCompareMode.Name = "chkCompareMode";
             this.chkCompareMode.Size = new System.Drawing.Size(144, 24);
             this.chkCompareMode.TabIndex = 10;
@@ -209,7 +211,7 @@ namespace myDataViewer
             // 
             // btn_reset_zoom
             // 
-            this.btn_reset_zoom.Location = new System.Drawing.Point(1234, 14);
+            this.btn_reset_zoom.Location = new System.Drawing.Point(864, 133);
             this.btn_reset_zoom.Name = "btn_reset_zoom";
             this.btn_reset_zoom.Size = new System.Drawing.Size(142, 52);
             this.btn_reset_zoom.TabIndex = 8;
@@ -220,7 +222,7 @@ namespace myDataViewer
             // chkbx_zoom
             // 
             this.chkbx_zoom.AutoSize = true;
-            this.chkbx_zoom.Location = new System.Drawing.Point(864, 59);
+            this.chkbx_zoom.Location = new System.Drawing.Point(864, 89);
             this.chkbx_zoom.Name = "chkbx_zoom";
             this.chkbx_zoom.Size = new System.Drawing.Size(138, 24);
             this.chkbx_zoom.TabIndex = 7;
@@ -261,7 +263,7 @@ namespace myDataViewer
             // 
             // btnLoadData
             // 
-            this.btnLoadData.Location = new System.Drawing.Point(1234, 75);
+            this.btnLoadData.Location = new System.Drawing.Point(1086, 14);
             this.btnLoadData.Name = "btnLoadData";
             this.btnLoadData.Size = new System.Drawing.Size(142, 52);
             this.btnLoadData.TabIndex = 1;
@@ -275,7 +277,7 @@ namespace myDataViewer
             this.checkedListSensors.FormattingEnabled = true;
             this.checkedListSensors.Location = new System.Drawing.Point(405, 27);
             this.checkedListSensors.Name = "checkedListSensors";
-            this.checkedListSensors.Size = new System.Drawing.Size(386, 142);
+            this.checkedListSensors.Size = new System.Drawing.Size(192, 142);
             this.checkedListSensors.TabIndex = 0;
             // 
             // panel3
@@ -309,13 +311,23 @@ namespace myDataViewer
             // 
             // btn_open_data_location
             // 
-            this.btn_open_data_location.Location = new System.Drawing.Point(1086, 14);
+            this.btn_open_data_location.Location = new System.Drawing.Point(1234, 14);
             this.btn_open_data_location.Name = "btn_open_data_location";
             this.btn_open_data_location.Size = new System.Drawing.Size(142, 52);
             this.btn_open_data_location.TabIndex = 13;
             this.btn_open_data_location.Text = "Open Data Location";
             this.btn_open_data_location.UseVisualStyleBackColor = true;
             this.btn_open_data_location.Click += new System.EventHandler(this.btn_open_data_location_Click);
+            // 
+            // btn_help
+            // 
+            this.btn_help.Location = new System.Drawing.Point(1234, 75);
+            this.btn_help.Name = "btn_help";
+            this.btn_help.Size = new System.Drawing.Size(142, 52);
+            this.btn_help.TabIndex = 14;
+            this.btn_help.Text = "Help";
+            this.btn_help.UseVisualStyleBackColor = true;
+            this.btn_help.Click += new System.EventHandler(this.btn_help_Click);
             // 
             // Form1
             // 
@@ -327,6 +339,7 @@ namespace myDataViewer
             this.Controls.Add(this.tableLayoutPanel1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "myDataViewer";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -366,6 +379,7 @@ namespace myDataViewer
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartHumidity;
         private System.Windows.Forms.Button btn_open_data_location;
+        private System.Windows.Forms.Button btn_help;
     }
 }
 

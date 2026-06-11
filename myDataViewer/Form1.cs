@@ -42,9 +42,10 @@ namespace myDataViewer
            Works with compare mode = Crosshair overlays all series. 
            
          */
-        private VerticalLineAnnotation liveCrosshairX;
-        private HorizontalLineAnnotation liveCrosshairY;
+
         private bool crosshairActive;
+        bool movableCrosshairEnabled = true;
+
 
 
         public Form1()
@@ -305,12 +306,17 @@ namespace myDataViewer
         {
             SetCrosshairEnabled(chartTemperature, chkbx_crosshairs.Checked);
             SetCrosshairEnabled(chartHumidity, chkbx_crosshairs.Checked);
+
+            UpdateMovableCrosshairState();
         }
 
         private void chkbx_zoom_CheckedChanged(object sender, EventArgs e)
         {
             SetZoomEnabled(chartTemperature, chkbx_zoom.Checked);
             SetZoomEnabled(chartHumidity, chkbx_zoom.Checked);
+
+            UpdateMovableCrosshairState();
+
         }
 
 
@@ -739,11 +745,17 @@ namespace myDataViewer
 
         private void chart_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!crosshairActive)
-                return;
-
             var chart = sender as Chart;
             var area = chart.ChartAreas[0];
+            
+            if (!movableCrosshairEnabled)
+            {
+                crosshairTooltip.Hide(chart);
+                return;
+            }
+            
+            if (!crosshairActive)
+                return;
 
             // Get plot area boundaries in pixels
             double xMinPix = area.AxisX.ValueToPixelPosition(area.AxisX.Minimum);
@@ -788,41 +800,59 @@ namespace myDataViewer
             crosshairTooltip.Show(text, chart, e.X + 15, e.Y + 15);
         }
 
-
         private void chart_MouseDown(object sender, MouseEventArgs e)
         {
-            if (chkbx_crosshairs.Checked == false)
+            if (!movableCrosshairEnabled)
+                return; // ignore clicks
+
+            var chart = sender as Chart;
+
+            if (e.Button == MouseButtons.Left)
             {
-                var chart = sender as Chart;
+                crosshairActive = true;
 
                 var crossX = chart.Annotations[chart.Name + "_CrossX"];
                 var crossY = chart.Annotations[chart.Name + "_CrossY"];
 
-                if (e.Button == MouseButtons.Left)
-                {
-                    crosshairActive = true;
-                    crossX.Visible = true;
-                    crossY.Visible = true;
+                crossX.Visible = true;
+                crossY.Visible = true;
 
-                    // Force immediate update
-                    chart_MouseMove(sender, e);
-                }
-                else if (e.Button == MouseButtons.Right)
-                {
-                    crosshairActive = false;
-                    crossX.Visible = false;
-                    crossY.Visible = false;
-                    crosshairTooltip.Hide(chart);
-
-                    //if (!crosshairActive)
-                    //{
-                    //    crosshairTooltip.Hide(chart);
-                    //    return;
-                    //}
-
-                    chart.Invalidate();
-                }
+                chart_MouseMove(sender, e);
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                crosshairActive = false;
+                HideMovableCrosshair(chart);
             }
         }
+
+
+        private void UpdateMovableCrosshairState()
+        {
+            // Movable crosshair is only allowed when BOTH checkboxes are off
+            movableCrosshairEnabled = !chkbx_crosshairs.Checked && !chkbx_zoom.Checked;
+
+            if (!movableCrosshairEnabled)
+            {
+                // Turn off movable crosshair immediately
+                crosshairActive = false;
+
+                HideMovableCrosshair(chartTemperature);
+                HideMovableCrosshair(chartHumidity);
+            }
+        }
+
+        private void HideMovableCrosshair(Chart chart)
+        {
+            var crossX = chart.Annotations[chart.Name + "_CrossX"];
+            var crossY = chart.Annotations[chart.Name + "_CrossY"];
+
+            crossX.Visible = false;
+            crossY.Visible = false;
+
+            crosshairTooltip.Hide(chart);
+            chart.Invalidate();
+        }
+
     }
 }

@@ -13,11 +13,14 @@ namespace myDataViewer
 {
     public partial class Form1 : Form
     {
-        private int counter = 0;
+        private int counter;
         private Timer zoomTimer = null;
         private double targetXMin, targetXMax, targetYMin, targetYMax;
         private int zoomSteps = 10;
-        private int zoomStep = 0;
+        private int zoomStep;
+        private int loadedYear;
+        private int loadedMonth;
+        private ToolTip crosshairTooltip = new ToolTip();
 
         //used to pop and push zoom levels when using mouse scroll to zoom in and out
         private Stack<(double xMin, double xMax, double yMin, double yMax)> TemperaturezoomHistory
@@ -25,6 +28,8 @@ namespace myDataViewer
 
         private Stack<(double xMin, double xMax, double yMin, double yMax)> HumidityzoomHistory
             = new Stack<(double, double, double, double)>();
+
+        string dataRoot = "C:\\"; //Path.Combine(Application.StartupPath, "data");
 
         //used for moving crosshairs
         /*
@@ -50,12 +55,12 @@ namespace myDataViewer
         {
             Text += " : v" + Assembly.GetExecutingAssembly().GetName().Version; // put in the version number
 
-            string dataRoot = Path.Combine(Application.StartupPath, "data");
+           // string dataRoot = Path.Combine(Application.StartupPath, "data");
 
-            if (Directory.Exists(dataRoot))
-            {
-                LoadYears();
-            }
+            //if (Directory.Exists(dataRoot))
+            //{
+            //    LoadYears();
+            //}
 
             chartTemperature.Legends.Add(new Legend("TempLegend"));
             chartHumidity.Legends.Add(new Legend("HumLegend"));
@@ -68,10 +73,16 @@ namespace myDataViewer
             chartHumidity.ChartAreas[0].AxisX.ToolTip = "Day/Time";
             chartHumidity.ChartAreas[0].AxisY.ToolTip = "Value";
 
+            btnLoadData.Visible = false;
             btn_reset_chart.Visible = false;
+            btn_save_chart_image.Visible = false;
             btn_reset_zoom.Visible = false;
             chkbx_zoom.Visible = false;
+            chkCompareMode.Visible = false;
             chkbx_crosshairs.Visible = false;
+            checkedListYears.Visible = false;
+            checkedListMonths.Visible = false;
+            checkedListSensors.Visible = false;
 
             //add this to allow mouse scroll to zoom
             chartTemperature.MouseWheel += chart_MouseWheel;
@@ -83,7 +94,10 @@ namespace myDataViewer
             CreateCrosshair(chartTemperature);
             CreateCrosshair(chartHumidity);
 
-
+            crosshairTooltip.InitialDelay = 0;
+            crosshairTooltip.ReshowDelay = 0;
+            crosshairTooltip.AutoPopDelay = 30000;
+            crosshairTooltip.ShowAlways = true;
         }
 
         private void LoadYears()
@@ -262,6 +276,14 @@ namespace myDataViewer
                 }
 
                 btn_reset_chart.Visible = true;
+                btn_save_chart_image.Visible = true;
+
+                if (loadedYear == 0)
+                {
+                    loadedYear = timestamp.Year;
+                    loadedMonth = timestamp.Month;
+                }
+
             }
         }
 
@@ -342,8 +364,8 @@ namespace myDataViewer
                        checkedListYears.SetItemChecked(i, false);
                }
 
-                // Now reload months and sensors for the selected year
-                LoadMonthsForSelectedYears();
+               // Now reload months and sensors for the selected year
+               LoadMonthsForSelectedYears();
                LoadSensorsForSelectedMonths();
            });
         }
@@ -358,8 +380,8 @@ namespace myDataViewer
                        checkedListMonths.SetItemChecked(i, false);
                }
 
-                // Reload sensors for the selected month
-                LoadSensorsForSelectedMonths();
+               // Reload sensors for the selected month
+               LoadSensorsForSelectedMonths();
            });
         }
 
@@ -478,12 +500,19 @@ namespace myDataViewer
 
         private void btn_reset_chart_Click(object sender, EventArgs e)
         {
-            TemperaturezoomHistory.Clear();
+            ResetChart();
+        }
+
+
+        private void ResetChart()
+        {
+        TemperaturezoomHistory.Clear();
             chartTemperature.Series.Clear();
             HumidityzoomHistory.Clear();
             chartHumidity.Series.Clear();
             counter = 0;
             btn_reset_chart.Visible = false;
+            btn_save_chart_image.Visible = false;
         }
 
         // Wheel scroll zooms both X-Axis and Y-Axis
@@ -646,9 +675,32 @@ namespace myDataViewer
 
             zoomTimer.Start();
         }
-        
-        
-       private void CreateCrosshair(Chart chart)
+
+        private void btn_open_data_location_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog fbd = new FolderBrowserDialog();
+
+            if (fbd.ShowDialog() == DialogResult.OK)
+            {
+                checkedListMonths.Items.Clear();
+                checkedListSensors.Items.Clear();
+                ResetChart();
+
+                dataRoot = fbd.SelectedPath;
+                if (Directory.Exists(dataRoot))
+                {
+                    LoadYears();
+                }
+
+                btnLoadData.Visible = true;
+                chkCompareMode.Visible = true;
+                checkedListYears.Visible = true;
+                checkedListMonths.Visible = true;
+                checkedListSensors.Visible = true;
+            }
+        }
+
+        private void CreateCrosshair(Chart chart)
         {
             var area = chart.ChartAreas[0];
 
@@ -707,32 +759,62 @@ namespace myDataViewer
             crossY.Y = yVal;
 
             chart.Invalidate();
+
+            // Show tooltip with X/Y values
+            // Convert X-axis value (hours since start of month) back to real timestamp
+            DateTime startOfMonth = new DateTime(loadedYear, loadedMonth, 1);
+            DateTime realTime = startOfMonth.AddHours(xVal);
+
+            // Format X-axis text
+            string xText = realTime.ToString("dd MMM yyyy HH:mm:ss");
+
+            // Format Y-axis based on chart
+            bool isTemperatureChart = chart == chartTemperature;
+            string yText = isTemperatureChart
+                ? $"{yVal:0.0} °C"
+                : $"{yVal:0.0} %";
+
+            // Build tooltip text
+            string text = $"Time: {xText}\nValue: {yText}";
+
+            // Show tooltip
+            crosshairTooltip.Show(text, chart, e.X + 15, e.Y + 15);
         }
 
 
         private void chart_MouseDown(object sender, MouseEventArgs e)
         {
-            var chart = sender as Chart;
-
-            var crossX = chart.Annotations[chart.Name + "_CrossX"];
-            var crossY = chart.Annotations[chart.Name + "_CrossY"];
-
-            if (e.Button == MouseButtons.Left)
+            if (chkbx_crosshairs.Checked == false)
             {
-                crosshairActive = true;
-                crossX.Visible = true;
-                crossY.Visible = true;
+                var chart = sender as Chart;
 
-                // Force immediate update
-                chart_MouseMove(sender, e);
-            }
-            else if (e.Button == MouseButtons.Right)
-            {
-                crosshairActive = false;
-                crossX.Visible = false;
-                crossY.Visible = false;
+                var crossX = chart.Annotations[chart.Name + "_CrossX"];
+                var crossY = chart.Annotations[chart.Name + "_CrossY"];
 
-                chart.Invalidate();
+                if (e.Button == MouseButtons.Left)
+                {
+                    crosshairActive = true;
+                    crossX.Visible = true;
+                    crossY.Visible = true;
+
+                    // Force immediate update
+                    chart_MouseMove(sender, e);
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    crosshairActive = false;
+                    crossX.Visible = false;
+                    crossY.Visible = false;
+                    crosshairTooltip.Hide(chart);
+
+                    //if (!crosshairActive)
+                    //{
+                    //    crosshairTooltip.Hide(chart);
+                    //    return;
+                    //}
+
+                    chart.Invalidate();
+                }
             }
         }
     }

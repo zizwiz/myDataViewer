@@ -56,6 +56,7 @@ namespace myDataViewer
             this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.btn_open_data_location = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -148,6 +149,7 @@ namespace myDataViewer
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.btn_open_data_location);
             this.panel2.Controls.Add(this.btn_save_chart_image);
             this.panel2.Controls.Add(this.btn_reset_chart);
             this.panel2.Controls.Add(this.chkCompareMode);
@@ -302,6 +304,18 @@ namespace myDataViewer
             this.chartHumidity.TabIndex = 1;
             this.chartHumidity.Text = "chart1";
             this.chartHumidity.DoubleClick += new System.EventHandler(this.chartHumidity_DoubleClick);
+            this.chartHumidity.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart_MouseDown);
+            this.chartHumidity.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart_MouseMove);
+            // 
+            // btn_open_data_location
+            // 
+            this.btn_open_data_location.Location = new System.Drawing.Point(1086, 14);
+            this.btn_open_data_location.Name = "btn_open_data_location";
+            this.btn_open_data_location.Size = new System.Drawing.Size(142, 52);
+            this.btn_open_data_location.TabIndex = 13;
+            this.btn_open_data_location.Text = "Open Data Location";
+            this.btn_open_data_location.UseVisualStyleBackColor = true;
+            this.btn_open_data_location.Click += new System.EventHandler(this.btn_open_data_location_Click);
             // 
             // Form1
             // 
@@ -351,6 +365,7 @@ namespace myDataViewer
         private System.Windows.Forms.Button btn_save_chart_image;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartHumidity;
+        private System.Windows.Forms.Button btn_open_data_location;
     }
 }
 

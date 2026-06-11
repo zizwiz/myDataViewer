@@ -42,45 +42,45 @@ namespace myDataViewer
             this.tabTemperature = new System.Windows.Forms.TabPage();
             this.chartTemperature = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabHumidity = new System.Windows.Forms.TabPage();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.btn_save_chart_image = new System.Windows.Forms.Button();
-            this.btn_reset_chart = new System.Windows.Forms.Button();
-            this.chkCompareMode = new System.Windows.Forms.CheckBox();
-            this.checkedListYears = new System.Windows.Forms.CheckedListBox();
-            this.btn_reset_zoom = new System.Windows.Forms.Button();
-            this.chkbx_zoom = new System.Windows.Forms.CheckBox();
-            this.chkbx_crosshairs = new System.Windows.Forms.CheckBox();
-            this.checkedListMonths = new System.Windows.Forms.CheckedListBox();
-            this.btn_close = new System.Windows.Forms.Button();
-            this.btnLoadData = new System.Windows.Forms.Button();
-            this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.btn_open_data_location = new System.Windows.Forms.Button();
-            this.btn_help = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.btn_reset_chart = new System.Windows.Forms.Button();
+            this.btn_reset_zoom = new System.Windows.Forms.Button();
+            this.btn_save_chart_image = new System.Windows.Forms.Button();
+            this.btn_help = new System.Windows.Forms.Button();
             this.panel4 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkedListYears = new System.Windows.Forms.CheckedListBox();
+            this.btn_open_data_location = new System.Windows.Forms.Button();
+            this.btnLoadData = new System.Windows.Forms.Button();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkedListMonths = new System.Windows.Forms.CheckedListBox();
+            this.panel6 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.checkedListSensors = new System.Windows.Forms.CheckedListBox();
+            this.btn_close = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
+            this.chkCompareMode = new System.Windows.Forms.CheckBox();
+            this.chkbx_zoom = new System.Windows.Forms.CheckBox();
+            this.chkbx_crosshairs = new System.Windows.Forms.CheckBox();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabTemperature.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartTemperature)).BeginInit();
             this.tabHumidity.SuspendLayout();
-            this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartHumidity)).BeginInit();
+            this.panel2.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel4.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.panel5.SuspendLayout();
-            this.panel6.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
+            this.panel6.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
             this.panel7.SuspendLayout();
             this.SuspendLayout();
@@ -150,6 +150,7 @@ namespace myDataViewer
             this.chartTemperature.TabIndex = 0;
             this.chartTemperature.Text = "chart1";
             this.chartTemperature.DoubleClick += new System.EventHandler(this.chartTemperature_DoubleClick);
+            this.chartTemperature.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.chartTemperature_DoubleClick);
             this.chartTemperature.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart_MouseDown);
             this.chartTemperature.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart_MouseMove);
             // 
@@ -163,134 +164,6 @@ namespace myDataViewer
             this.tabHumidity.TabIndex = 1;
             this.tabHumidity.Text = "Humidity";
             this.tabHumidity.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.tableLayoutPanel2);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 464);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(1386, 194);
-            this.panel2.TabIndex = 1;
-            // 
-            // btn_save_chart_image
-            // 
-            this.btn_save_chart_image.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_save_chart_image.Location = new System.Drawing.Point(1101, 70);
-            this.btn_save_chart_image.Name = "btn_save_chart_image";
-            this.btn_save_chart_image.Size = new System.Drawing.Size(130, 51);
-            this.btn_save_chart_image.TabIndex = 12;
-            this.btn_save_chart_image.Text = "Save Chart Image";
-            this.btn_save_chart_image.UseVisualStyleBackColor = true;
-            this.btn_save_chart_image.Click += new System.EventHandler(this.btn_save_chart_image_Click);
-            // 
-            // btn_reset_chart
-            // 
-            this.btn_reset_chart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_reset_chart.Location = new System.Drawing.Point(1101, 132);
-            this.btn_reset_chart.Name = "btn_reset_chart";
-            this.btn_reset_chart.Size = new System.Drawing.Size(130, 51);
-            this.btn_reset_chart.TabIndex = 11;
-            this.btn_reset_chart.Text = "Clear Chart";
-            this.btn_reset_chart.UseVisualStyleBackColor = true;
-            this.btn_reset_chart.Click += new System.EventHandler(this.btn_reset_chart_Click);
-            // 
-            // chkCompareMode
-            // 
-            this.chkCompareMode.AutoSize = true;
-            this.chkCompareMode.Location = new System.Drawing.Point(3, 39);
-            this.chkCompareMode.Name = "chkCompareMode";
-            this.chkCompareMode.Size = new System.Drawing.Size(144, 24);
-            this.chkCompareMode.TabIndex = 10;
-            this.chkCompareMode.Text = "Compare Mode";
-            this.chkCompareMode.UseVisualStyleBackColor = true;
-            // 
-            // checkedListYears
-            // 
-            this.checkedListYears.CheckOnClick = true;
-            this.checkedListYears.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListYears.FormattingEnabled = true;
-            this.checkedListYears.Location = new System.Drawing.Point(3, 8);
-            this.checkedListYears.Name = "checkedListYears";
-            this.checkedListYears.Size = new System.Drawing.Size(173, 172);
-            this.checkedListYears.TabIndex = 9;
-            this.checkedListYears.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListYears_ItemCheck);
-            // 
-            // btn_reset_zoom
-            // 
-            this.btn_reset_zoom.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_reset_zoom.Location = new System.Drawing.Point(926, 132);
-            this.btn_reset_zoom.Name = "btn_reset_zoom";
-            this.btn_reset_zoom.Size = new System.Drawing.Size(164, 51);
-            this.btn_reset_zoom.TabIndex = 8;
-            this.btn_reset_zoom.Text = "Reset Zoom";
-            this.btn_reset_zoom.UseVisualStyleBackColor = true;
-            this.btn_reset_zoom.Click += new System.EventHandler(this.btn_reset_zoom_Click);
-            // 
-            // chkbx_zoom
-            // 
-            this.chkbx_zoom.AutoSize = true;
-            this.chkbx_zoom.Location = new System.Drawing.Point(3, 69);
-            this.chkbx_zoom.Name = "chkbx_zoom";
-            this.chkbx_zoom.Size = new System.Drawing.Size(138, 24);
-            this.chkbx_zoom.TabIndex = 7;
-            this.chkbx_zoom.Text = "Allow Zooming";
-            this.chkbx_zoom.UseVisualStyleBackColor = true;
-            this.chkbx_zoom.CheckedChanged += new System.EventHandler(this.chkbx_zoom_CheckedChanged);
-            // 
-            // chkbx_crosshairs
-            // 
-            this.chkbx_crosshairs.AutoSize = true;
-            this.chkbx_crosshairs.Location = new System.Drawing.Point(3, 9);
-            this.chkbx_crosshairs.Name = "chkbx_crosshairs";
-            this.chkbx_crosshairs.Size = new System.Drawing.Size(154, 24);
-            this.chkbx_crosshairs.TabIndex = 6;
-            this.chkbx_crosshairs.Text = "Show Crosshairs";
-            this.chkbx_crosshairs.UseVisualStyleBackColor = true;
-            this.chkbx_crosshairs.CheckedChanged += new System.EventHandler(this.chkbx_crosshairs_CheckedChanged);
-            // 
-            // checkedListMonths
-            // 
-            this.checkedListMonths.CheckOnClick = true;
-            this.checkedListMonths.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListMonths.FormattingEnabled = true;
-            this.checkedListMonths.Location = new System.Drawing.Point(3, 8);
-            this.checkedListMonths.Name = "checkedListMonths";
-            this.checkedListMonths.Size = new System.Drawing.Size(173, 172);
-            this.checkedListMonths.TabIndex = 5;
-            this.checkedListMonths.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListMonths_ItemCheck);
-            // 
-            // btn_close
-            // 
-            this.btn_close.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_close.Location = new System.Drawing.Point(1242, 132);
-            this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(130, 51);
-            this.btn_close.TabIndex = 2;
-            this.btn_close.Text = "Close";
-            this.btn_close.UseVisualStyleBackColor = true;
-            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
-            // 
-            // btnLoadData
-            // 
-            this.btnLoadData.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btnLoadData.Location = new System.Drawing.Point(1101, 8);
-            this.btnLoadData.Name = "btnLoadData";
-            this.btnLoadData.Size = new System.Drawing.Size(130, 51);
-            this.btnLoadData.TabIndex = 1;
-            this.btnLoadData.Text = "Load Data";
-            this.btnLoadData.UseVisualStyleBackColor = true;
-            this.btnLoadData.Click += new System.EventHandler(this.btnLoadData_Click);
-            // 
-            // checkedListSensors
-            // 
-            this.checkedListSensors.CheckOnClick = true;
-            this.checkedListSensors.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.checkedListSensors.FormattingEnabled = true;
-            this.checkedListSensors.Location = new System.Drawing.Point(3, 8);
-            this.checkedListSensors.Name = "checkedListSensors";
-            this.checkedListSensors.Size = new System.Drawing.Size(173, 172);
-            this.checkedListSensors.TabIndex = 0;
             // 
             // panel3
             // 
@@ -318,30 +191,18 @@ namespace myDataViewer
             this.chartHumidity.TabIndex = 1;
             this.chartHumidity.Text = "chart1";
             this.chartHumidity.DoubleClick += new System.EventHandler(this.chartHumidity_DoubleClick);
+            this.chartHumidity.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.chartHumidity_DoubleClick);
             this.chartHumidity.MouseDown += new System.Windows.Forms.MouseEventHandler(this.chart_MouseDown);
             this.chartHumidity.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart_MouseMove);
             // 
-            // btn_open_data_location
+            // panel2
             // 
-            this.btn_open_data_location.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_open_data_location.Location = new System.Drawing.Point(1242, 8);
-            this.btn_open_data_location.Name = "btn_open_data_location";
-            this.btn_open_data_location.Size = new System.Drawing.Size(130, 51);
-            this.btn_open_data_location.TabIndex = 13;
-            this.btn_open_data_location.Text = "Open Data Location";
-            this.btn_open_data_location.UseVisualStyleBackColor = true;
-            this.btn_open_data_location.Click += new System.EventHandler(this.btn_open_data_location_Click);
-            // 
-            // btn_help
-            // 
-            this.btn_help.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.btn_help.Location = new System.Drawing.Point(1242, 70);
-            this.btn_help.Name = "btn_help";
-            this.btn_help.Size = new System.Drawing.Size(130, 51);
-            this.btn_help.TabIndex = 14;
-            this.btn_help.Text = "Help";
-            this.btn_help.UseVisualStyleBackColor = true;
-            this.btn_help.Click += new System.EventHandler(this.btn_help_Click);
+            this.panel2.Controls.Add(this.tableLayoutPanel2);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 464);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1386, 194);
+            this.panel2.TabIndex = 1;
             // 
             // tableLayoutPanel2
             // 
@@ -384,6 +245,50 @@ namespace myDataViewer
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1386, 194);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
+            // btn_reset_chart
+            // 
+            this.btn_reset_chart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_reset_chart.Location = new System.Drawing.Point(1101, 134);
+            this.btn_reset_chart.Name = "btn_reset_chart";
+            this.btn_reset_chart.Size = new System.Drawing.Size(130, 52);
+            this.btn_reset_chart.TabIndex = 11;
+            this.btn_reset_chart.Text = "Clear Chart";
+            this.btn_reset_chart.UseVisualStyleBackColor = true;
+            this.btn_reset_chart.Click += new System.EventHandler(this.btn_reset_chart_Click);
+            // 
+            // btn_reset_zoom
+            // 
+            this.btn_reset_zoom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_reset_zoom.Location = new System.Drawing.Point(926, 134);
+            this.btn_reset_zoom.Name = "btn_reset_zoom";
+            this.btn_reset_zoom.Size = new System.Drawing.Size(164, 52);
+            this.btn_reset_zoom.TabIndex = 8;
+            this.btn_reset_zoom.Text = "Reset Zoom";
+            this.btn_reset_zoom.UseVisualStyleBackColor = true;
+            this.btn_reset_zoom.Click += new System.EventHandler(this.btn_reset_zoom_Click);
+            // 
+            // btn_save_chart_image
+            // 
+            this.btn_save_chart_image.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_save_chart_image.Location = new System.Drawing.Point(1101, 71);
+            this.btn_save_chart_image.Name = "btn_save_chart_image";
+            this.btn_save_chart_image.Size = new System.Drawing.Size(130, 52);
+            this.btn_save_chart_image.TabIndex = 12;
+            this.btn_save_chart_image.Text = "Save Chart Image";
+            this.btn_save_chart_image.UseVisualStyleBackColor = true;
+            this.btn_save_chart_image.Click += new System.EventHandler(this.btn_save_chart_image_Click);
+            // 
+            // btn_help
+            // 
+            this.btn_help.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_help.Location = new System.Drawing.Point(1242, 71);
+            this.btn_help.Name = "btn_help";
+            this.btn_help.Size = new System.Drawing.Size(130, 52);
+            this.btn_help.TabIndex = 14;
+            this.btn_help.Text = "Help";
+            this.btn_help.UseVisualStyleBackColor = true;
+            this.btn_help.Click += new System.EventHandler(this.btn_help_Click);
+            // 
             // panel4
             // 
             this.panel4.Controls.Add(this.tableLayoutPanel3);
@@ -409,6 +314,39 @@ namespace myDataViewer
             this.tableLayoutPanel3.Size = new System.Drawing.Size(179, 188);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
+            // checkedListYears
+            // 
+            this.checkedListYears.CheckOnClick = true;
+            this.checkedListYears.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListYears.FormattingEnabled = true;
+            this.checkedListYears.Location = new System.Drawing.Point(3, 8);
+            this.checkedListYears.Name = "checkedListYears";
+            this.checkedListYears.Size = new System.Drawing.Size(173, 172);
+            this.checkedListYears.TabIndex = 9;
+            this.checkedListYears.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListYears_ItemCheck);
+            // 
+            // btn_open_data_location
+            // 
+            this.btn_open_data_location.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_open_data_location.Location = new System.Drawing.Point(1242, 8);
+            this.btn_open_data_location.Name = "btn_open_data_location";
+            this.btn_open_data_location.Size = new System.Drawing.Size(130, 52);
+            this.btn_open_data_location.TabIndex = 13;
+            this.btn_open_data_location.Text = "Open Data Location";
+            this.btn_open_data_location.UseVisualStyleBackColor = true;
+            this.btn_open_data_location.Click += new System.EventHandler(this.btn_open_data_location_Click);
+            // 
+            // btnLoadData
+            // 
+            this.btnLoadData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnLoadData.Location = new System.Drawing.Point(1101, 8);
+            this.btnLoadData.Name = "btnLoadData";
+            this.btnLoadData.Size = new System.Drawing.Size(130, 52);
+            this.btnLoadData.TabIndex = 1;
+            this.btnLoadData.Text = "Load Data";
+            this.btnLoadData.UseVisualStyleBackColor = true;
+            this.btnLoadData.Click += new System.EventHandler(this.btnLoadData_Click);
+            // 
             // panel5
             // 
             this.panel5.Controls.Add(this.tableLayoutPanel4);
@@ -418,16 +356,6 @@ namespace myDataViewer
             this.tableLayoutPanel2.SetRowSpan(this.panel5, 7);
             this.panel5.Size = new System.Drawing.Size(179, 188);
             this.panel5.TabIndex = 1;
-            // 
-            // panel6
-            // 
-            this.panel6.Controls.Add(this.tableLayoutPanel5);
-            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel6.Location = new System.Drawing.Point(388, 3);
-            this.panel6.Name = "panel6";
-            this.tableLayoutPanel2.SetRowSpan(this.panel6, 7);
-            this.panel6.Size = new System.Drawing.Size(179, 188);
-            this.panel6.TabIndex = 2;
             // 
             // tableLayoutPanel4
             // 
@@ -444,6 +372,27 @@ namespace myDataViewer
             this.tableLayoutPanel4.Size = new System.Drawing.Size(179, 188);
             this.tableLayoutPanel4.TabIndex = 1;
             // 
+            // checkedListMonths
+            // 
+            this.checkedListMonths.CheckOnClick = true;
+            this.checkedListMonths.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListMonths.FormattingEnabled = true;
+            this.checkedListMonths.Location = new System.Drawing.Point(3, 8);
+            this.checkedListMonths.Name = "checkedListMonths";
+            this.checkedListMonths.Size = new System.Drawing.Size(173, 172);
+            this.checkedListMonths.TabIndex = 5;
+            this.checkedListMonths.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListMonths_ItemCheck);
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.tableLayoutPanel5);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(388, 3);
+            this.panel6.Name = "panel6";
+            this.tableLayoutPanel2.SetRowSpan(this.panel6, 7);
+            this.panel6.Size = new System.Drawing.Size(179, 188);
+            this.panel6.TabIndex = 2;
+            // 
             // tableLayoutPanel5
             // 
             this.tableLayoutPanel5.ColumnCount = 1;
@@ -459,6 +408,27 @@ namespace myDataViewer
             this.tableLayoutPanel5.Size = new System.Drawing.Size(179, 188);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
+            // checkedListSensors
+            // 
+            this.checkedListSensors.CheckOnClick = true;
+            this.checkedListSensors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.checkedListSensors.FormattingEnabled = true;
+            this.checkedListSensors.Location = new System.Drawing.Point(3, 8);
+            this.checkedListSensors.Name = "checkedListSensors";
+            this.checkedListSensors.Size = new System.Drawing.Size(173, 172);
+            this.checkedListSensors.TabIndex = 0;
+            // 
+            // btn_close
+            // 
+            this.btn_close.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_close.Location = new System.Drawing.Point(1242, 134);
+            this.btn_close.Name = "btn_close";
+            this.btn_close.Size = new System.Drawing.Size(130, 52);
+            this.btn_close.TabIndex = 2;
+            this.btn_close.Text = "Close";
+            this.btn_close.UseVisualStyleBackColor = true;
+            this.btn_close.Click += new System.EventHandler(this.btn_close_Click);
+            // 
             // panel7
             // 
             this.panel7.Controls.Add(this.chkCompareMode);
@@ -468,8 +438,40 @@ namespace myDataViewer
             this.panel7.Location = new System.Drawing.Point(926, 8);
             this.panel7.Name = "panel7";
             this.tableLayoutPanel2.SetRowSpan(this.panel7, 3);
-            this.panel7.Size = new System.Drawing.Size(164, 113);
+            this.panel7.Size = new System.Drawing.Size(164, 115);
             this.panel7.TabIndex = 15;
+            // 
+            // chkCompareMode
+            // 
+            this.chkCompareMode.AutoSize = true;
+            this.chkCompareMode.Location = new System.Drawing.Point(3, 39);
+            this.chkCompareMode.Name = "chkCompareMode";
+            this.chkCompareMode.Size = new System.Drawing.Size(144, 24);
+            this.chkCompareMode.TabIndex = 10;
+            this.chkCompareMode.Text = "Compare Mode";
+            this.chkCompareMode.UseVisualStyleBackColor = true;
+            // 
+            // chkbx_zoom
+            // 
+            this.chkbx_zoom.AutoSize = true;
+            this.chkbx_zoom.Location = new System.Drawing.Point(3, 69);
+            this.chkbx_zoom.Name = "chkbx_zoom";
+            this.chkbx_zoom.Size = new System.Drawing.Size(138, 24);
+            this.chkbx_zoom.TabIndex = 7;
+            this.chkbx_zoom.Text = "Allow Zooming";
+            this.chkbx_zoom.UseVisualStyleBackColor = true;
+            this.chkbx_zoom.CheckedChanged += new System.EventHandler(this.chkbx_zoom_CheckedChanged);
+            // 
+            // chkbx_crosshairs
+            // 
+            this.chkbx_crosshairs.AutoSize = true;
+            this.chkbx_crosshairs.Location = new System.Drawing.Point(3, 9);
+            this.chkbx_crosshairs.Name = "chkbx_crosshairs";
+            this.chkbx_crosshairs.Size = new System.Drawing.Size(154, 24);
+            this.chkbx_crosshairs.TabIndex = 6;
+            this.chkbx_crosshairs.Text = "Show Crosshairs";
+            this.chkbx_crosshairs.UseVisualStyleBackColor = true;
+            this.chkbx_crosshairs.CheckedChanged += new System.EventHandler(this.chkbx_crosshairs_CheckedChanged);
             // 
             // Form1
             // 
@@ -490,15 +492,15 @@ namespace myDataViewer
             this.tabTemperature.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartTemperature)).EndInit();
             this.tabHumidity.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartHumidity)).EndInit();
+            this.panel2.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.panel5.ResumeLayout(false);
-            this.panel6.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
             this.panel7.PerformLayout();

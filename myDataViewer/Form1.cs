@@ -45,6 +45,7 @@ namespace myDataViewer
 
         private bool crosshairActive;
         bool movableCrosshairEnabled = true;
+        private bool suppressNextCrosshairActivation = false;
 
 
 
@@ -56,13 +57,6 @@ namespace myDataViewer
         private void Form1_Load(object sender, EventArgs e)
         {
             Text += " : v" + Assembly.GetExecutingAssembly().GetName().Version; // put in the version number
-
-           // string dataRoot = Path.Combine(Application.StartupPath, "data");
-
-            //if (Directory.Exists(dataRoot))
-            //{
-            //    LoadYears();
-            //}
 
             chartTemperature.Legends.Add(new Legend("TempLegend"));
             chartHumidity.Legends.Add(new Legend("HumLegend"));
@@ -334,6 +328,23 @@ namespace myDataViewer
             }
         }
 
+        //private void SetZoomEnabled(Chart chart, bool enabled)
+        //{
+        //    btn_reset_zoom.Visible = enabled;
+
+        //    var area = chart.ChartAreas[0];
+
+        //    area.CursorX.IsUserEnabled = enabled;
+        //    area.CursorY.IsUserEnabled = enabled;
+        //    area.CursorX.IsUserSelectionEnabled = enabled;
+        //    area.CursorY.IsUserSelectionEnabled = enabled;
+
+        //    // NEW: disable mouse wheel zoom when zoom checkbox is OFF
+        //    area.AxisX.ScaleView.Zoomable = enabled;
+        //    area.AxisY.ScaleView.Zoomable = enabled;
+        //}
+
+
         private void SetCrosshairEnabled(Chart chart, bool enabled)
         {
             chart.ChartAreas[0].CursorX.IsUserEnabled = enabled;
@@ -427,11 +438,17 @@ namespace myDataViewer
                 checkedListSensors.Items.Add(sensor);
         }
 
+
         private void chartTemperature_DoubleClick(object sender, EventArgs e)
         {
             TemperaturezoomHistory.Clear();
             chartTemperature.ChartAreas[0].AxisX.ScaleView.ZoomReset();
             chartTemperature.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+
+            //Hide the crosshairs
+            suppressNextCrosshairActivation = true;
+            HideMovableCrosshair(chartHumidity, true);
+            
         }
 
         private void chartHumidity_DoubleClick(object sender, EventArgs e)
@@ -440,6 +457,9 @@ namespace myDataViewer
             chartHumidity.ChartAreas[0].AxisX.ScaleView.ZoomReset();
             chartHumidity.ChartAreas[0].AxisY.ScaleView.ZoomReset();
 
+            //Hide the crosshairs
+            suppressNextCrosshairActivation = true;
+            HideMovableCrosshair(chartHumidity, true);
         }
 
         private void btn_save_chart_image_Click(object sender, EventArgs e)
@@ -800,12 +820,22 @@ namespace myDataViewer
             crosshairTooltip.Show(text, chart, e.X + 15, e.Y + 15);
         }
 
+
         private void chart_MouseDown(object sender, MouseEventArgs e)
         {
+            var chart = sender as Chart;
+
             if (!movableCrosshairEnabled)
                 return; // ignore clicks
 
-            var chart = sender as Chart;
+            // Prevent crosshair activation immediately after double-click
+            if (suppressNextCrosshairActivation)
+            {
+                suppressNextCrosshairActivation = false;
+                crosshairActive = false;
+                HideMovableCrosshair(chart, true);
+                return;
+            }
 
             if (e.Button == MouseButtons.Left)
             {
@@ -822,7 +852,7 @@ namespace myDataViewer
             else if (e.Button == MouseButtons.Right)
             {
                 crosshairActive = false;
-                HideMovableCrosshair(chart);
+                HideMovableCrosshair(chart, true);
             }
         }
 
@@ -837,13 +867,24 @@ namespace myDataViewer
                 // Turn off movable crosshair immediately
                 crosshairActive = false;
 
-                HideMovableCrosshair(chartTemperature);
-                HideMovableCrosshair(chartHumidity);
+                HideMovableCrosshair(chartTemperature, false);
+                HideMovableCrosshair(chartHumidity, false);
             }
         }
 
-        private void HideMovableCrosshair(Chart chart)
+        private void HideMovableCrosshair(Chart chart, bool flag)
         {
+            //if (flag) crosshairActive = false; //flag true for double clicks.
+
+            if (flag)
+            {
+                // Turn off movable crosshair immediately
+                crosshairActive = false;
+
+                HideMovableCrosshair(chartTemperature, false);
+                HideMovableCrosshair(chartHumidity, false);
+            }
+
             var crossX = chart.Annotations[chart.Name + "_CrossX"];
             var crossY = chart.Annotations[chart.Name + "_CrossY"];
 
@@ -853,6 +894,5 @@ namespace myDataViewer
             crosshairTooltip.Hide(chart);
             chart.Invalidate();
         }
-
     }
 }

@@ -58,6 +58,14 @@ namespace myDataViewer
             this.chartHumidity = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btn_open_data_location = new System.Windows.Forms.Button();
             this.btn_help = new System.Windows.Forms.Button();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel4 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel5 = new System.Windows.Forms.Panel();
+            this.panel6 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel7 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -67,6 +75,14 @@ namespace myDataViewer
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chartHumidity)).BeginInit();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.panel4.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.panel5.SuspendLayout();
+            this.panel6.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.tableLayoutPanel5.SuspendLayout();
+            this.panel7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -150,19 +166,7 @@ namespace myDataViewer
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.btn_help);
-            this.panel2.Controls.Add(this.btn_open_data_location);
-            this.panel2.Controls.Add(this.btn_save_chart_image);
-            this.panel2.Controls.Add(this.btn_reset_chart);
-            this.panel2.Controls.Add(this.chkCompareMode);
-            this.panel2.Controls.Add(this.checkedListYears);
-            this.panel2.Controls.Add(this.btn_reset_zoom);
-            this.panel2.Controls.Add(this.chkbx_zoom);
-            this.panel2.Controls.Add(this.chkbx_crosshairs);
-            this.panel2.Controls.Add(this.checkedListMonths);
-            this.panel2.Controls.Add(this.btn_close);
-            this.panel2.Controls.Add(this.btnLoadData);
-            this.panel2.Controls.Add(this.checkedListSensors);
+            this.panel2.Controls.Add(this.tableLayoutPanel2);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 464);
             this.panel2.Name = "panel2";
@@ -171,9 +175,10 @@ namespace myDataViewer
             // 
             // btn_save_chart_image
             // 
-            this.btn_save_chart_image.Location = new System.Drawing.Point(1086, 75);
+            this.btn_save_chart_image.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_save_chart_image.Location = new System.Drawing.Point(1101, 70);
             this.btn_save_chart_image.Name = "btn_save_chart_image";
-            this.btn_save_chart_image.Size = new System.Drawing.Size(142, 52);
+            this.btn_save_chart_image.Size = new System.Drawing.Size(130, 51);
             this.btn_save_chart_image.TabIndex = 12;
             this.btn_save_chart_image.Text = "Save Chart Image";
             this.btn_save_chart_image.UseVisualStyleBackColor = true;
@@ -181,9 +186,10 @@ namespace myDataViewer
             // 
             // btn_reset_chart
             // 
-            this.btn_reset_chart.Location = new System.Drawing.Point(1086, 133);
+            this.btn_reset_chart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_reset_chart.Location = new System.Drawing.Point(1101, 132);
             this.btn_reset_chart.Name = "btn_reset_chart";
-            this.btn_reset_chart.Size = new System.Drawing.Size(142, 52);
+            this.btn_reset_chart.Size = new System.Drawing.Size(130, 51);
             this.btn_reset_chart.TabIndex = 11;
             this.btn_reset_chart.Text = "Clear Chart";
             this.btn_reset_chart.UseVisualStyleBackColor = true;
@@ -192,7 +198,7 @@ namespace myDataViewer
             // chkCompareMode
             // 
             this.chkCompareMode.AutoSize = true;
-            this.chkCompareMode.Location = new System.Drawing.Point(864, 59);
+            this.chkCompareMode.Location = new System.Drawing.Point(3, 39);
             this.chkCompareMode.Name = "chkCompareMode";
             this.chkCompareMode.Size = new System.Drawing.Size(144, 24);
             this.chkCompareMode.TabIndex = 10;
@@ -202,18 +208,20 @@ namespace myDataViewer
             // checkedListYears
             // 
             this.checkedListYears.CheckOnClick = true;
+            this.checkedListYears.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListYears.FormattingEnabled = true;
-            this.checkedListYears.Location = new System.Drawing.Point(9, 27);
+            this.checkedListYears.Location = new System.Drawing.Point(3, 8);
             this.checkedListYears.Name = "checkedListYears";
-            this.checkedListYears.Size = new System.Drawing.Size(192, 142);
+            this.checkedListYears.Size = new System.Drawing.Size(173, 172);
             this.checkedListYears.TabIndex = 9;
             this.checkedListYears.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListYears_ItemCheck);
             // 
             // btn_reset_zoom
             // 
-            this.btn_reset_zoom.Location = new System.Drawing.Point(864, 133);
+            this.btn_reset_zoom.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_reset_zoom.Location = new System.Drawing.Point(926, 132);
             this.btn_reset_zoom.Name = "btn_reset_zoom";
-            this.btn_reset_zoom.Size = new System.Drawing.Size(142, 52);
+            this.btn_reset_zoom.Size = new System.Drawing.Size(164, 51);
             this.btn_reset_zoom.TabIndex = 8;
             this.btn_reset_zoom.Text = "Reset Zoom";
             this.btn_reset_zoom.UseVisualStyleBackColor = true;
@@ -222,7 +230,7 @@ namespace myDataViewer
             // chkbx_zoom
             // 
             this.chkbx_zoom.AutoSize = true;
-            this.chkbx_zoom.Location = new System.Drawing.Point(864, 89);
+            this.chkbx_zoom.Location = new System.Drawing.Point(3, 69);
             this.chkbx_zoom.Name = "chkbx_zoom";
             this.chkbx_zoom.Size = new System.Drawing.Size(138, 24);
             this.chkbx_zoom.TabIndex = 7;
@@ -233,7 +241,7 @@ namespace myDataViewer
             // chkbx_crosshairs
             // 
             this.chkbx_crosshairs.AutoSize = true;
-            this.chkbx_crosshairs.Location = new System.Drawing.Point(864, 29);
+            this.chkbx_crosshairs.Location = new System.Drawing.Point(3, 9);
             this.chkbx_crosshairs.Name = "chkbx_crosshairs";
             this.chkbx_crosshairs.Size = new System.Drawing.Size(154, 24);
             this.chkbx_crosshairs.TabIndex = 6;
@@ -244,18 +252,20 @@ namespace myDataViewer
             // checkedListMonths
             // 
             this.checkedListMonths.CheckOnClick = true;
+            this.checkedListMonths.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListMonths.FormattingEnabled = true;
-            this.checkedListMonths.Location = new System.Drawing.Point(207, 27);
+            this.checkedListMonths.Location = new System.Drawing.Point(3, 8);
             this.checkedListMonths.Name = "checkedListMonths";
-            this.checkedListMonths.Size = new System.Drawing.Size(192, 142);
+            this.checkedListMonths.Size = new System.Drawing.Size(173, 172);
             this.checkedListMonths.TabIndex = 5;
             this.checkedListMonths.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListMonths_ItemCheck);
             // 
             // btn_close
             // 
-            this.btn_close.Location = new System.Drawing.Point(1234, 133);
+            this.btn_close.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_close.Location = new System.Drawing.Point(1242, 132);
             this.btn_close.Name = "btn_close";
-            this.btn_close.Size = new System.Drawing.Size(142, 52);
+            this.btn_close.Size = new System.Drawing.Size(130, 51);
             this.btn_close.TabIndex = 2;
             this.btn_close.Text = "Close";
             this.btn_close.UseVisualStyleBackColor = true;
@@ -263,9 +273,10 @@ namespace myDataViewer
             // 
             // btnLoadData
             // 
-            this.btnLoadData.Location = new System.Drawing.Point(1086, 14);
+            this.btnLoadData.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnLoadData.Location = new System.Drawing.Point(1101, 8);
             this.btnLoadData.Name = "btnLoadData";
-            this.btnLoadData.Size = new System.Drawing.Size(142, 52);
+            this.btnLoadData.Size = new System.Drawing.Size(130, 51);
             this.btnLoadData.TabIndex = 1;
             this.btnLoadData.Text = "Load Data";
             this.btnLoadData.UseVisualStyleBackColor = true;
@@ -274,10 +285,11 @@ namespace myDataViewer
             // checkedListSensors
             // 
             this.checkedListSensors.CheckOnClick = true;
+            this.checkedListSensors.Dock = System.Windows.Forms.DockStyle.Fill;
             this.checkedListSensors.FormattingEnabled = true;
-            this.checkedListSensors.Location = new System.Drawing.Point(405, 27);
+            this.checkedListSensors.Location = new System.Drawing.Point(3, 8);
             this.checkedListSensors.Name = "checkedListSensors";
-            this.checkedListSensors.Size = new System.Drawing.Size(192, 142);
+            this.checkedListSensors.Size = new System.Drawing.Size(173, 172);
             this.checkedListSensors.TabIndex = 0;
             // 
             // panel3
@@ -311,9 +323,10 @@ namespace myDataViewer
             // 
             // btn_open_data_location
             // 
-            this.btn_open_data_location.Location = new System.Drawing.Point(1234, 14);
+            this.btn_open_data_location.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_open_data_location.Location = new System.Drawing.Point(1242, 8);
             this.btn_open_data_location.Name = "btn_open_data_location";
-            this.btn_open_data_location.Size = new System.Drawing.Size(142, 52);
+            this.btn_open_data_location.Size = new System.Drawing.Size(130, 51);
             this.btn_open_data_location.TabIndex = 13;
             this.btn_open_data_location.Text = "Open Data Location";
             this.btn_open_data_location.UseVisualStyleBackColor = true;
@@ -321,13 +334,142 @@ namespace myDataViewer
             // 
             // btn_help
             // 
-            this.btn_help.Location = new System.Drawing.Point(1234, 75);
+            this.btn_help.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btn_help.Location = new System.Drawing.Point(1242, 70);
             this.btn_help.Name = "btn_help";
-            this.btn_help.Size = new System.Drawing.Size(142, 52);
+            this.btn_help.Size = new System.Drawing.Size(130, 51);
             this.btn_help.TabIndex = 14;
             this.btn_help.Text = "Help";
             this.btn_help.UseVisualStyleBackColor = true;
             this.btn_help.Click += new System.EventHandler(this.btn_help_Click);
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 13;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.71499F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.71499F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 13.71499F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 26.10043F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 12.58552F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.08455F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10.08455F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.Controls.Add(this.btn_reset_chart, 9, 5);
+            this.tableLayoutPanel2.Controls.Add(this.btn_reset_zoom, 7, 5);
+            this.tableLayoutPanel2.Controls.Add(this.btn_save_chart_image, 9, 3);
+            this.tableLayoutPanel2.Controls.Add(this.btn_help, 11, 3);
+            this.tableLayoutPanel2.Controls.Add(this.panel4, 1, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btn_open_data_location, 11, 1);
+            this.tableLayoutPanel2.Controls.Add(this.btnLoadData, 9, 1);
+            this.tableLayoutPanel2.Controls.Add(this.panel5, 3, 0);
+            this.tableLayoutPanel2.Controls.Add(this.panel6, 5, 0);
+            this.tableLayoutPanel2.Controls.Add(this.btn_close, 11, 5);
+            this.tableLayoutPanel2.Controls.Add(this.panel7, 7, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 7;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(1386, 194);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            this.panel4.Controls.Add(this.tableLayoutPanel3);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(8, 3);
+            this.panel4.Name = "panel4";
+            this.tableLayoutPanel2.SetRowSpan(this.panel4, 7);
+            this.panel4.Size = new System.Drawing.Size(179, 188);
+            this.panel4.TabIndex = 0;
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.checkedListYears, 0, 1);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(179, 188);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // panel5
+            // 
+            this.panel5.Controls.Add(this.tableLayoutPanel4);
+            this.panel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel5.Location = new System.Drawing.Point(198, 3);
+            this.panel5.Name = "panel5";
+            this.tableLayoutPanel2.SetRowSpan(this.panel5, 7);
+            this.panel5.Size = new System.Drawing.Size(179, 188);
+            this.panel5.TabIndex = 1;
+            // 
+            // panel6
+            // 
+            this.panel6.Controls.Add(this.tableLayoutPanel5);
+            this.panel6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel6.Location = new System.Drawing.Point(388, 3);
+            this.panel6.Name = "panel6";
+            this.tableLayoutPanel2.SetRowSpan(this.panel6, 7);
+            this.panel6.Size = new System.Drawing.Size(179, 188);
+            this.panel6.TabIndex = 2;
+            // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.Controls.Add(this.checkedListMonths, 0, 1);
+            this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(179, 188);
+            this.tableLayoutPanel4.TabIndex = 1;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 1;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.Controls.Add(this.checkedListSensors, 0, 1);
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 3;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 5F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(179, 188);
+            this.tableLayoutPanel5.TabIndex = 1;
+            // 
+            // panel7
+            // 
+            this.panel7.Controls.Add(this.chkCompareMode);
+            this.panel7.Controls.Add(this.chkbx_zoom);
+            this.panel7.Controls.Add(this.chkbx_crosshairs);
+            this.panel7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel7.Location = new System.Drawing.Point(926, 8);
+            this.panel7.Name = "panel7";
+            this.tableLayoutPanel2.SetRowSpan(this.panel7, 3);
+            this.panel7.Size = new System.Drawing.Size(164, 113);
+            this.panel7.TabIndex = 15;
             // 
             // Form1
             // 
@@ -349,9 +491,17 @@ namespace myDataViewer
             ((System.ComponentModel.ISupportInitialize)(this.chartTemperature)).EndInit();
             this.tabHumidity.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.panel3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chartHumidity)).EndInit();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.panel4.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.panel5.ResumeLayout(false);
+            this.panel6.ResumeLayout(false);
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.tableLayoutPanel5.ResumeLayout(false);
+            this.panel7.ResumeLayout(false);
+            this.panel7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -380,6 +530,14 @@ namespace myDataViewer
         private System.Windows.Forms.DataVisualization.Charting.Chart chartHumidity;
         private System.Windows.Forms.Button btn_open_data_location;
         private System.Windows.Forms.Button btn_help;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Panel panel4;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Panel panel6;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.Panel panel7;
     }
 }
 

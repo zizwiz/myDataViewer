@@ -21,5 +21,7 @@ Buttons and other UI Controls will appear or disappear depending on the choices 
 The folder structure where the data is stored and how it is named is important. The app starts to look under the folder Data into subfolders for the year, then under the year into subfolders for the months (Sentence case for months). Under the months are the csv files for that month. This is illustrated below:
 
 
+![Filestructure](myDataViewer/images/filestructure.png)
+
 
 

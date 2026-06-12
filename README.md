@@ -110,12 +110,36 @@ There are several ways to zoom out.
   •	If you click the end of the scroll bar as shown in the circled in the image below you will zoom out by one level each time. 
 
 <p align="center">
-<img src=myDataViewer/images/reset_zoom_1.png alt="Zooming"/>
+<img src=myDataViewer/images/reset_zoom_1.png alt="Reset Zoom"/>
 </p>
 
+  •	Clicking on “Reset Zoom” will also zoom out by one level each time you click it.
+  •	Double Clicking the left mouse button will also zoom out by one level each time you click it.
 
+2)	You can also use the mouse wheel to scroll zoom in and out. This works independently of the Allow Zoom Checkbox state. The behaviours of this way of zooming are different to that described above:  
+  •	Moving wheel scroll 
+      o	Forward zooms in
+      o	Backwards zooms out 
+  •	Wheel scroll zooms both X-Axis and Y-Axis
+  •	Control + wheel scroll zooms X-Axis
+  •	Shift + wheel scroll Zooms Y-Axis
+  •	Control + Shift + wheel scroll = ultrafine scrolling
+  •	If the Zoom checkbox is unchecked then Double clicking the left mouse button will reset the chart to original size.
 
+### Crosshairs
+There are two different types of crosshairs you can use. One is static and the other when activated follows the mouse movement.
 
+1)	Check the checkbox to activate the “Show Crosshairs”. Now click on a point on the charted line and you will get the static red cross hairs. It will also show a tooltip if you are on a charted point. You can click at another point and the crosshair will move to that point but will not move with the mouse movement. To remove the crosshairs uncheck the “Show Crosshairs” checkbox.
 
+<p align="center">
+<img src=myDataViewer/images/crosshairs1.png alt="Crosshairs 1"/>
+</p>
 
+2)	If the “Show Crosshairs” checkbox is unchecked and you left click on the chart then you will get the movable crosshairs. There will also be a tooltip showing the value of that point even if it not on a charted line. The crosshairs will follow your mouse movements which will allow you to follow the charted lines. To remove the crosshair just right click your mouse.
+
+<p align="center">
+<img src=myDataViewer/images/crosshairs2.png alt="Crosshairs 2"/>
+</p>
+
+End of File
 

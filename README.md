@@ -70,9 +70,48 @@ If you put your mouse over a charted line and it finds a charted point then you 
 <img src=myDataViewer/images/tooltip.png alt="Loaded Data"/>
 </p>
 
+### Comparing Data
+This is useful to compare data from the same sensor over different seasons. To do this check the checkbox called “Compare Mode”. Now every time you choose a year, month or sensor and loads its data it will be superimposed over all the existing data. Below you can see data for the outside sensor being compared for three different months. Note that we can chart data even for incomplete months.
 
+<p align="center">
+<img src=myDataViewer/images/comparing_data.png alt="Comparing Data"/>
+</p>
 
+You can also compare data from different sensors in different seasons if you so wish. 
 
+<p align="center">
+<img src=myDataViewer/images/compare_sensors.png alt="Comparing Sensors"/>
+</p>
+
+### Save Chart Image
+Click on the “Save Chart Image” and you will be able to select where you save the image and what you call it. The size you save will depend on the size you have the app working at. For the best results maximise the app.
+
+### Clear Chart Images
+Click on “Clear Chart” will remove the chart from the app. 
+
+### Zooming into and out of the Chart
+Zooming is useful to get deeper into the plots to check them in more detail. There are various ways to zoom into and out of the chart.
+
+1)	Check the “Allow Zooming” checkbox. You will see a “Reset Zooming” button now appears.
+
+<p align="center">
+<img src=myDataViewer/images/allow_zooming.png alt="Allow Zooming"/>
+</p>
+
+If you now place your mouse on the chart and click and hold the left mouse button and drag the mouse and you will see a grey box appear. This defines the area that will be zoomed in. When you let go of the left mouse button the chart will zoom in.
+
+<p align="center">
+<img src=myDataViewer/images/zooming.png alt="Zooming"/>
+</p>
+
+Note that you now see the scrollbars now appear for both axis. You can zoom in as many levels as you want by just repeating the method described above.
+
+There are several ways to zoom out. 
+  •	If you click the end of the scroll bar as shown in the circled in the image below you will zoom out by one level each time. 
+
+<p align="center">
+<img src=myDataViewer/images/reset_zoom_1.png alt="Zooming"/>
+</p>
 
 
 

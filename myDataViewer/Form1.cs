@@ -5,6 +5,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using CenteredMessagebox;
@@ -103,12 +104,26 @@ namespace myDataViewer
             if (!Directory.Exists(dataRoot))
                 return;
 
+            //var years = Directory.GetDirectories(dataRoot)
+            //    .Select(Path.GetFileName)
+            //    .OrderBy(y => y);
+
+            Regex yearPattern = new Regex(@"^\d{4}$"); //Check folder name is YYYY
+
             var years = Directory.GetDirectories(dataRoot)
                 .Select(Path.GetFileName)
+                .Where(name => yearPattern.IsMatch(name))
                 .OrderBy(y => y);
 
-            foreach (var year in years)
-                checkedListYears.Items.Add(year);
+            if (years.Count() == 0) //No folders with YYYY as name.
+            {
+                MsgBox.Show("The folder chosen does not contain the correct data", "No Years Found", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                foreach (var year in years)
+                    checkedListYears.Items.Add(year);
+            }
         }
 
         private void LoadMonthsForSelectedYears()
@@ -700,6 +715,11 @@ namespace myDataViewer
                 checkedListYears.Visible = true;
                 checkedListMonths.Visible = true;
                 checkedListSensors.Visible = true;
+            }
+            else
+            {
+                GC.Collect();
+                return;
             }
         }
 

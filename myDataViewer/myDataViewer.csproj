@@ -84,6 +84,26 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="data\2026\April\Centre.csv" />
+    <None Include="data\2026\April\Gallery.csv" />
+    <None Include="data\2026\April\Outside.csv" />
+    <None Include="data\2026\April\Sanctuary.csv" />
+    <None Include="data\2026\April\Thermostat.csv" />
+    <None Include="data\2026\August\Gallery.csv" />
+    <None Include="data\2026\August\Middle.csv" />
+    <None Include="data\2026\August\Outside.csv" />
+    <None Include="data\2026\August\Sanctuary.csv" />
+    <None Include="data\2026\August\Thermostat.csv" />
+    <None Include="data\2026\July\Gallery.csv" />
+    <None Include="data\2026\July\Middle.csv" />
+    <None Include="data\2026\July\Outside.csv" />
+    <None Include="data\2026\July\Sanctuary.csv" />
+    <None Include="data\2026\July\Thermostat.csv" />
+    <None Include="data\2026\June\Gallery.csv" />
+    <None Include="data\2026\June\Middle.csv" />
+    <None Include="data\2026\June\Outside.csv" />
+    <None Include="data\2026\June\Sanctuary.csv" />
+    <None Include="data\2026\June\Thermostat.csv" />
     <None Include="data\2026\May\Centre.csv" />
     <None Include="data\2026\May\Gallery.csv" />
     <None Include="data\2026\May\Outside.csv" />

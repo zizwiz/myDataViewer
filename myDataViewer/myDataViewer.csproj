@@ -109,6 +109,16 @@
     <None Include="data\2026\May\Outside.csv" />
     <None Include="data\2026\May\Sanctuary.csv" />
     <None Include="data\2026\May\Thermostat.csv" />
+    <None Include="data\2026\October\Gallery.csv" />
+    <None Include="data\2026\October\Middle.csv" />
+    <None Include="data\2026\October\Outside.csv" />
+    <None Include="data\2026\October\Sanctuary.csv" />
+    <None Include="data\2026\October\Thermostat.csv" />
+    <None Include="data\2026\September\Gallery.csv" />
+    <None Include="data\2026\September\Middle.csv" />
+    <None Include="data\2026\September\Outside.csv" />
+    <None Include="data\2026\September\Sanctuary.csv" />
+    <None Include="data\2026\September\Thermostat.csv" />
     <None Include="help\Help.mht" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -127,8 +137,6 @@
     <Content Include="help\help.ico" />
     <Content Include="icon.ico" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="data\2026\September\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

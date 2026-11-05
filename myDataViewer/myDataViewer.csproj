@@ -137,6 +137,8 @@
     <Content Include="help\help.ico" />
     <Content Include="icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="data\2026\November\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
